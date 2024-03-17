@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\DotgetPredavanje2.props" />
+</Project>
