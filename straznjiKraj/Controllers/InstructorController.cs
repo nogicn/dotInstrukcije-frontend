@@ -1,4 +1,9 @@
-﻿namespace DotgetPredavanje2.Controllers;
+﻿using DotgetPredavanje2.Data;
+using DotgetPredavanje2.Models;
+using DotgetPredavanje2.Utils;
+using DotgetPredavanje2.ViewModels;
+
+
 using DotgetPredavanje2.Data;
 using DotgetPredavanje2.Models;
 using DotgetPredavanje2.Utils;
@@ -12,12 +17,14 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-[ApiController]
-[Route("api/[controller]")]
-public class InstructorController : Controller
+namespace DotgetPredavanje2.Controllers
 {
+    [ApiController]
+    [Route("api")]
+    public class InstructorController : Controller
+    {
 
-    
+
         private readonly AppContextExample context;
         private readonly IConfiguration configuration;
 
@@ -27,7 +34,7 @@ public class InstructorController : Controller
             this.configuration = configuration;
         }
 
-        [HttpPost("register")]
+        [HttpPost("professor/register")]
         public async Task<IActionResult> Register(ProfessorRegistrationModel model)
         {
             if (ModelState.IsValid)
@@ -35,9 +42,11 @@ public class InstructorController : Controller
                 var user = new User
                 {
                     Name = model.Name,
-                    Username = model.Username,
+                    Surname = model.Surname,
                     Email = model.Email,
-                    Password = PasswordUtils.HashPassword(model.Password)
+                    Password = PasswordUtils.HashPassword(model.Password),
+                    ProfilePicture = model.ProfilePicture,
+                    Subjects = model.Subjects
                 };
 
                 context.Users.Add(user);
@@ -50,19 +59,17 @@ public class InstructorController : Controller
             return BadRequest(ModelState);
         }
 
-        [HttpPost("login")]
+        [HttpPost("professor/login")]
         public async Task<IActionResult> Login(UserLoginModel model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             User? user = null;
 
-            if (!string.IsNullOrWhiteSpace(model.Login))
+            if (!string.IsNullOrWhiteSpace(model.Email))
             {
-                if (RegexUtils.IsValidEmail(model.Login))
-                    user = await context.Users.FirstOrDefaultAsync(u => u.Email == model.Login);
-                else 
-                    user = await context.Users.FirstOrDefaultAsync(u => u.Username == model.Login);
+                if (RegexUtils.IsValidEmail(model.Email))
+                    user = await context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
             }
 
             if (user == null)
@@ -82,7 +89,7 @@ public class InstructorController : Controller
             {
                 success = true,
                 message = "Login successful",
-                user = new { user.ID, user.Name, user.Username, user.Email },
+                professor = new { user.ID, user.Name, user.Surname, user.Email },
                 token
             };
 
@@ -96,7 +103,7 @@ public class InstructorController : Controller
 
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Username),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Surname),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 new Claim("id", user.ID.ToString()),
             };
@@ -111,7 +118,7 @@ public class InstructorController : Controller
         }
 
         [Authorize]
-        [HttpGet("{id}")]
+        [HttpGet("professor/{id}")]
         public async Task<IActionResult> GetUserByID(int id)
         {
             var user = await context.Users.FindAsync(id);
@@ -121,30 +128,24 @@ public class InstructorController : Controller
             var response = new
             {
                 success = true,
-                user = new { user.ID, user.Name, user.Username, user.Email }
+                user = new { user.ID, user.Name, user.Surname, user.Email }
             };
 
             return Ok(response);
         }
 
         [Authorize]
-        [HttpGet]
+        [HttpGet("professors")]
         public async Task<IActionResult> GetAllUsers()
         {
-            var users = await context.Users
-                .Select(user => new {
-                    user.ID,
-                    user.Name,
-                    user.Username,
-                    user.Email
-                })
-                .ToListAsync();
+           // select all suers whre Subjects != null
+           var users = await context.Users.Where(u => u.Subjects != null).ToListAsync();
 
             return Ok(new { success = true, users });
         }
 
         [Authorize]
-        [HttpDelete("{id}")]
+        [HttpDelete("professor/{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
             var user = await context.Users.FindAsync(id);
@@ -158,7 +159,7 @@ public class InstructorController : Controller
         }
 
         [Authorize]
-        [HttpPut("{id}")]
+        [HttpPut("professor/w{id}")]
         public async Task<IActionResult> UpdateUserById(int id, ProfessorUpdateModel model)
         {
             if (!ModelState.IsValid)
@@ -183,30 +184,33 @@ public class InstructorController : Controller
                 hasChange = true;
             }
 
-            if (model.Username != null && model.Username != user.Username)
+            if (model.Surname != null && model.Surname != user.Surname)
             {
-                user.Username = model.Username;
+                user.Surname = model.Surname;
                 hasChange = true;
             }
-            
+
             if (model.ProfilePicture != null && model.ProfilePicture != user.ProfilePicture)
             {
                 user.ProfilePicture = model.ProfilePicture;
                 hasChange = true;
             }
-            
+
             if (model.Password != null)
             {
                 user.Password = PasswordUtils.HashPassword(model.Password);
                 hasChange = true;
             }
-            
+
 
             if (hasChange) await context.SaveChangesAsync();
 
             string message = hasChange ? "User updated successfully." : "No updates on user.";
-            return base.Ok(new { success = true, message, user = new { user.ID, user.Name, user.Username, user.Email } });
+            return base.Ok(new
+                { success = true, message, user = new { user.ID, user.Name, user.Surname, user.Email } });
         }
-    
+
+
+    }
 
 }

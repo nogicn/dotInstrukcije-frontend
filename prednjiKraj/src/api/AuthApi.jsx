@@ -4,7 +4,7 @@ export const handleLogin = async (data, user) => {
   try {
     // Send a POST request to the /login/student endpoint
     const response = await fetch(
-      import.meta.env.VITE_REACT_BACKEND_URL + "/login/" + user,
+      import.meta.env.VITE_REACT_BACKEND_URL +"/"+ user+"/login/",
       {
         method: "POST",
         headers: {
@@ -46,7 +46,7 @@ export const handleLogin = async (data, user) => {
 export const handlerRegister = async (formData, user) => {
   try {
     const response = await axios.post(
-      import.meta.env.VITE_REACT_BACKEND_URL + "/register/" + user,
+      import.meta.env.VITE_REACT_BACKEND_URL +"/"+ user+"/register/",
       formData,
       {}
     );

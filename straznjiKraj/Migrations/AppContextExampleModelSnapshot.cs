@@ -74,7 +74,7 @@ namespace DotgetPredavanje2.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("InstructionsCount")
+                    b.Property<int?>("InstructionsCount")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
@@ -90,10 +90,9 @@ namespace DotgetPredavanje2.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Subjects")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Username")
+                    b.Property<string>("Surname")
                         .IsRequired()
                         .HasColumnType("TEXT");
 

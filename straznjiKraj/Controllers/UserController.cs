@@ -14,7 +14,7 @@ using System.Text;
 namespace DotgetPredavanje2.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api")]
     public class UsersController : Controller
     {
         private readonly AppContextExample context;
@@ -26,7 +26,7 @@ namespace DotgetPredavanje2.Controllers
             this.configuration = configuration;
         }
 
-        [HttpPost("register")]
+        [HttpPost("student/register")]
         public async Task<IActionResult> Register(UserRegistrationModel model)
         {
             if (ModelState.IsValid)
@@ -34,9 +34,10 @@ namespace DotgetPredavanje2.Controllers
                 var user = new User
                 {
                     Name = model.Name,
-                    Username = model.Username,
+                    Surname = model.Surname,
                     Email = model.Email,
-                    Password = PasswordUtils.HashPassword(model.Password)
+                    Password = PasswordUtils.HashPassword(model.Password),
+                    ProfilePicture = model.ProfilePicture
                 };
 
                 context.Users.Add(user);
@@ -49,19 +50,17 @@ namespace DotgetPredavanje2.Controllers
             return BadRequest(ModelState);
         }
 
-        [HttpPost("login")]
+        [HttpPost("student/login")]
         public async Task<IActionResult> Login(UserLoginModel model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             User? user = null;
 
-            if (!string.IsNullOrWhiteSpace(model.Login))
+            if (!string.IsNullOrWhiteSpace(model.Email))
             {
-                if (RegexUtils.IsValidEmail(model.Login))
-                    user = await context.Users.FirstOrDefaultAsync(u => u.Email == model.Login);
-                else 
-                    user = await context.Users.FirstOrDefaultAsync(u => u.Username == model.Login);
+                if (RegexUtils.IsValidEmail(model.Email))
+                    user = await context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
             }
 
             if (user == null)
@@ -81,7 +80,7 @@ namespace DotgetPredavanje2.Controllers
             {
                 success = true,
                 message = "Login successful",
-                user = new { user.ID, user.Name, user.Username, user.Email },
+                student = new { user.ID, user.Name, user.Surname, user.Email },
                 token
             };
 
@@ -95,9 +94,8 @@ namespace DotgetPredavanje2.Controllers
 
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Username),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim("id", user.ID.ToString()),
+                new Claim("ID", user.ID.ToString()),
             };
 
             var token = new JwtSecurityToken(
@@ -110,7 +108,7 @@ namespace DotgetPredavanje2.Controllers
         }
 
         [Authorize]
-        [HttpGet("{id}")]
+        [HttpGet("student/{id}")]
         public async Task<IActionResult> GetUserByID(int id)
         {
             var user = await context.Users.FindAsync(id);
@@ -120,22 +118,42 @@ namespace DotgetPredavanje2.Controllers
             var response = new
             {
                 success = true,
-                user = new { user.ID, user.Name, user.Username, user.Email }
+                user = new { user.ID, user.Name, user.Surname, user.Email }
+            };
+
+            return Ok(response);
+        }
+        
+        // get student by email
+        [Authorize]
+        [HttpGet("student/{email}")]
+        public async Task<IActionResult> GetUserByEmail(string email)
+        {
+            var user = await context.Users.FirstOrDefaultAsync(u => u.Email == email);
+
+            if (user == null) return NotFound(new { success = false, message = "User not found." });
+
+            var response = new
+            {
+                success = true,
+                student = new { user.ID, user.Name, user.Surname, user.Email },
+                message = "User found."
             };
 
             return Ok(response);
         }
 
         [Authorize]
-        [HttpGet]
+        [HttpGet("students")]
         public async Task<IActionResult> GetAllUsers()
         {
             var users = await context.Users
                 .Select(user => new {
                     user.ID,
                     user.Name,
-                    user.Username,
+                    user.Surname,
                     user.Email
+                    
                 })
                 .ToListAsync();
 
@@ -182,9 +200,9 @@ namespace DotgetPredavanje2.Controllers
                 hasChange = true;
             }
 
-            if (model.Username != null && model.Username != user.Username)
+            if (model.Surname != null && model.Surname != user.Surname)
             {
-                user.Username = model.Username;
+                user.Surname = model.Surname;
                 hasChange = true;
             }
             
@@ -205,7 +223,7 @@ namespace DotgetPredavanje2.Controllers
             if (hasChange) await context.SaveChangesAsync();
 
             string message = hasChange ? "User updated successfully." : "No updates on user.";
-            return base.Ok(new { success = true, message, user = new { user.ID, user.Name, user.Username, user.Email } });
+            return base.Ok(new { success = true, message, user = new { user.ID, user.Name, user.Surname, user.Email } });
         }
     }
 }

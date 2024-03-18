@@ -17,7 +17,7 @@ namespace DotgetPredavanje2.Data
         }
 
         public DbSet<User> Users { get; set; }
-        public DbSet<DotgetPredavanje2.Models.Subject> Subject { get; set; } = default!;
-        public DbSet<DotgetPredavanje2.Models.InstructionsDate> InstructionsDate { get; set; } = default!;
+        public DbSet<Subject> Subject { get; set; } = default!;
+        public DbSet<InstructionsDate> InstructionsDate { get; set; } = default!;
     }
 }

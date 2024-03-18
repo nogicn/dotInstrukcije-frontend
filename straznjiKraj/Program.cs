@@ -14,6 +14,17 @@ namespace DotgetPredavanje2
 
             builder.Services.AddControllers();
             builder.Services.AddRazorPages();
+            // Add CORS services
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("MyPolicy",
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:5173")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
+            });
             SetUpDB(builder);
             SetUpJWT(builder);
 
@@ -22,6 +33,7 @@ namespace DotgetPredavanje2
             TestDatabaseConnection(app.Services);
 
             app.UseHttpsRedirection();
+            app.UseCors("MyPolicy");
             app.UseRouting();
             app.UseAuthentication(); //has to go before UseAuthorization
             app.UseAuthorization();
@@ -31,7 +43,8 @@ namespace DotgetPredavanje2
             app.Run();
         }
         
-
+        
+        
         private static void SetUpDB(WebApplicationBuilder builder)
         {
             builder.Services.AddDbContext<AppContextExample>(options =>
@@ -74,7 +87,7 @@ namespace DotgetPredavanje2
                     Console.WriteLine("Database connection successful.");
                     foreach (var user in dbContext.Users.ToList())
                     {
-                        Console.WriteLine($"Name: {user.Name}, Username: {user.Username}, ID: {user.ID}");
+                        Console.WriteLine($"Name: {user.Name}, Surname: {user.Surname}, ID: {user.ID}");
                     }
                 }
                 catch (Exception ex)
