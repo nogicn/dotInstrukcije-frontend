@@ -26,7 +26,7 @@ namespace DotgetPredavanje2.Controllers
             this.configuration = configuration;
         }
 
-        [HttpPost("student/register")]
+        [HttpPost("register/student")]
         public async Task<IActionResult> Register(UserRegistrationModel model)
         {
             if (ModelState.IsValid)
@@ -50,7 +50,7 @@ namespace DotgetPredavanje2.Controllers
             return BadRequest(ModelState);
         }
 
-        [HttpPost("student/login")]
+        [HttpPost("login/student")]
         public async Task<IActionResult> Login(UserLoginModel model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);

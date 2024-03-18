@@ -13,7 +13,7 @@ namespace DotgetPredavanje2.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite(@"Data Source=E:\SQLite\dotget.db");
+            optionsBuilder.UseSqlite(@"Data Source=dotget.db");
         }
 
         public DbSet<User> Users { get; set; }

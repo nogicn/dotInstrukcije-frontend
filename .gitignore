@@ -26,3 +26,4 @@ dist-ssr
 .env
 *.dll
 /straznjiKraj/obj/Debug
+straznjiKraj/dotget.db
