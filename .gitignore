@@ -25,3 +25,4 @@ dist-ssr
 
 .env
 *.dll
+/straznjiKraj/obj/Debug
