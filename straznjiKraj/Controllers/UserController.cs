@@ -31,13 +31,20 @@ namespace DotgetPredavanje2.Controllers
         {
             if (ModelState.IsValid)
             {
+                var fileName = Guid.NewGuid().ToString() + Path.GetExtension(model.ProfilePicture.FileName);
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/profilePictures", fileName);
+
+                using (var stream = System.IO.File.Create(filePath))
+                {
+                    await model.ProfilePicture.CopyToAsync(stream);
+                }
                 var user = new User
                 {
                     Name = model.Name,
                     Surname = model.Surname,
                     Email = model.Email,
                     Password = PasswordUtils.HashPassword(model.Password),
-                    ProfilePicture = model.ProfilePicture
+                    ProfilePicture = "/profilePictures/" + fileName
                 };
 
                 context.Users.Add(user);

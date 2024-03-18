@@ -7,7 +7,7 @@ public class ProfessorRegistrationModel
     public string Email { get; set; }
     public string Password { get; set; }
     
-    public string ProfilePicture { get; set; }
+    public IFormFile ProfilePicture { get; set; }
     
     public string[] Subjects { get; set; }
 }

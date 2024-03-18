@@ -1,4 +1,5 @@
-﻿using DotgetPredavanje2.Data;
+﻿using System.Security.Claims;
+using DotgetPredavanje2.Data;
 using DotgetPredavanje2.Models;
 using DotgetPredavanje2.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -59,15 +60,33 @@ namespace DotgetPredavanje2.Controllers
             // Query the database for a subject with the provided URL
             var subject = await context.Subject.FirstOrDefaultAsync(s => s.Url == url);
 
-            // If a subject is found, return a success response with the subject data
+            // If a subject is found, return a success response with the subject data and associated professors
             if (subject != null)
             {
+        
+                // get all professors
+                var professors = await context.Users.Where(u => u.Subjects != null).Select(
+                    p => new
+                    {
+                        _id = p.ID,
+                        p.Name,
+                        p.Surname,
+                        p.Email,
+                        profilePictureUrl = p.ProfilePicture,
+                        p.Subjects,
+                        instructionsCount = p.InstructionsCount
+                    }).ToListAsync();
+                
+                // check if professor has subject equal to subject url
+                professors = professors != null ? professors.Where(p => p.Subjects.Contains(url)).ToList() : null;
+                // print every subject that professor has
+                
                 return Ok(new
                 {
                     success = true,
-                    subject.Title,
-                    subject.Url,
-                    subject.Description
+                    subject = new { subject.Title, subject.Url, subject.Description },
+                    professors,
+                    message = "Subject found."
                 });
             }
 
@@ -75,7 +94,7 @@ namespace DotgetPredavanje2.Controllers
             return NotFound(new { success = false, message = "Subject not found." });
         }
 
-        [Authorize]
+        
         [HttpGet("subjects")]
         public async Task<IActionResult> GetAllSubjects()
         {
@@ -102,12 +121,21 @@ namespace DotgetPredavanje2.Controllers
             {
                 return BadRequest(ModelState);
             }
+            
+            // get student id using email from token
+            var studentEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+            var student = await context.Users.FirstOrDefaultAsync(u => u.Email == studentEmail);
+            
+            if (student == null) return NotFound(new { success = false, message = "Student not found." });
 
             // Create a new InstructionSession entity
             var instructionSession = new InstructionsDate
             {
                 DateTime = model.Date,
-                ProfessorId = model.ProfessorId
+                ProfessorId = model.ProfessorId,
+                StudentId = student.ID,
+                Status = "poslan zahtjev"
+                
             };
 
             // Add the new InstructionSession to the database context

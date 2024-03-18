@@ -28,6 +28,7 @@
     <Folder Include="Pages\Subject\" />
     <Folder Include="Pages\User\" />
     <Folder Include="Views\" />
+    <Folder Include="wwwroot\profilePictures\" />
   </ItemGroup>
 
   <ItemGroup>

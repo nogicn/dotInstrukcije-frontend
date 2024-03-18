@@ -29,7 +29,7 @@ function ProfessorsComponent({
             <img
               src={
                 professor.profilePictureUrl
-                  ? professor.profilePictureUrl
+                  ? import.meta.env.VITE_REACT_DATA_URL+professor.profilePictureUrl
                   : "/placeholder.png"
               }
               className="professor-image"
