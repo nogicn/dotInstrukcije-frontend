@@ -187,6 +187,20 @@ namespace DotgetPredavanje2.Controllers
                 user.Username = model.Username;
                 hasChange = true;
             }
+            
+            if (model.ProfilePicture != null && model.ProfilePicture != user.ProfilePicture)
+            {
+                user.ProfilePicture = model.ProfilePicture;
+                hasChange = true;
+            }
+            
+            if (model.Password != null)
+            {
+                user.Password = PasswordUtils.HashPassword(model.Password);
+                hasChange = true;
+            }
+            
+            
 
             if (hasChange) await context.SaveChangesAsync();
 

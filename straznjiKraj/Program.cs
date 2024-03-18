@@ -13,6 +13,7 @@ namespace DotgetPredavanje2
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddControllers();
+            builder.Services.AddRazorPages();
             SetUpDB(builder);
             SetUpJWT(builder);
 
@@ -25,8 +26,11 @@ namespace DotgetPredavanje2
             app.UseAuthentication(); //has to go before UseAuthorization
             app.UseAuthorization();
             app.MapControllers();
+            app.MapRazorPages();
+            app.UseStaticFiles();
             app.Run();
         }
+        
 
         private static void SetUpDB(WebApplicationBuilder builder)
         {

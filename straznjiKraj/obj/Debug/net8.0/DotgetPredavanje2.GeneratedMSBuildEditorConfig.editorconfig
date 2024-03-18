@@ -1,47 +1,115 @@
 is_global = true
 build_property.TargetFramework = net8.0
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
 build_property.TargetPlatformMinVersion = 
 build_property.UsingMicrosoftNETSdkWeb = true
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
 build_property.ProjectTypeGuids = 
 build_property.InvariantGlobalization = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
 build_property.PlatformNeutralAssembly = 
 build_property.EnforceExtendedAnalyzerRules = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = DotgetPredavanje2
 build_property.RootNamespace = DotgetPredavanje2
-build_property.ProjectDir = C:\Users\FRM-PC 5\DotgetPredavanje2\
+build_property.ProjectDir = C:\Users\kiler\Documents\GitHub\dotInstrukcije-frontend\straznjiKraj\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\FRM-PC 5\DotgetPredavanje2
+build_property.MSBuildProjectDirectory = C:\Users\kiler\Documents\GitHub\dotInstrukcije-frontend\straznjiKraj
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/FRM-PC 5/DotgetPredavanje2/Pages/Error.cshtml]
+[C:/Users/kiler/Documents/GitHub/dotInstrukcije-frontend/straznjiKraj/Pages/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/FRM-PC 5/DotgetPredavanje2/Pages/Index.cshtml]
+[C:/Users/kiler/Documents/GitHub/dotInstrukcije-frontend/straznjiKraj/Pages/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/FRM-PC 5/DotgetPredavanje2/Pages/Privacy.cshtml]
+[C:/Users/kiler/Documents/GitHub/dotInstrukcije-frontend/straznjiKraj/Pages/InstructionsDate/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5zdHJ1Y3Rpb25zRGF0ZVxDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/kiler/Documents/GitHub/dotInstrukcije-frontend/straznjiKraj/Pages/InstructionsDate/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5zdHJ1Y3Rpb25zRGF0ZVxEZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/kiler/Documents/GitHub/dotInstrukcije-frontend/straznjiKraj/Pages/InstructionsDate/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5zdHJ1Y3Rpb25zRGF0ZVxEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/kiler/Documents/GitHub/dotInstrukcije-frontend/straznjiKraj/Pages/InstructionsDate/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5zdHJ1Y3Rpb25zRGF0ZVxFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/kiler/Documents/GitHub/dotInstrukcije-frontend/straznjiKraj/Pages/InstructionsDate/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5zdHJ1Y3Rpb25zRGF0ZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/kiler/Documents/GitHub/dotInstrukcije-frontend/straznjiKraj/Pages/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJpdmFjeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/FRM-PC 5/DotgetPredavanje2/Pages/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/kiler/Documents/GitHub/dotInstrukcije-frontend/straznjiKraj/Pages/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/FRM-PC 5/DotgetPredavanje2/Pages/_ViewImports.cshtml]
+[C:/Users/kiler/Documents/GitHub/dotInstrukcije-frontend/straznjiKraj/Pages/Subject/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3ViamVjdFxDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/kiler/Documents/GitHub/dotInstrukcije-frontend/straznjiKraj/Pages/Subject/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3ViamVjdFxEZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/kiler/Documents/GitHub/dotInstrukcije-frontend/straznjiKraj/Pages/Subject/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3ViamVjdFxEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/kiler/Documents/GitHub/dotInstrukcije-frontend/straznjiKraj/Pages/Subject/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3ViamVjdFxFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/kiler/Documents/GitHub/dotInstrukcije-frontend/straznjiKraj/Pages/Subject/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3ViamVjdFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/kiler/Documents/GitHub/dotInstrukcije-frontend/straznjiKraj/Pages/User/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXNlclxDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/kiler/Documents/GitHub/dotInstrukcije-frontend/straznjiKraj/Pages/User/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXNlclxEZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/kiler/Documents/GitHub/dotInstrukcije-frontend/straznjiKraj/Pages/User/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXNlclxEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/kiler/Documents/GitHub/dotInstrukcije-frontend/straznjiKraj/Pages/User/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXNlclxFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/kiler/Documents/GitHub/dotInstrukcije-frontend/straznjiKraj/Pages/User/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXNlclxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/kiler/Documents/GitHub/dotInstrukcije-frontend/straznjiKraj/Pages/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/FRM-PC 5/DotgetPredavanje2/Pages/_ViewStart.cshtml]
+[C:/Users/kiler/Documents/GitHub/dotInstrukcije-frontend/straznjiKraj/Pages/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/FRM-PC 5/DotgetPredavanje2/Pages/Shared/_Layout.cshtml]
+[C:/Users/kiler/Documents/GitHub/dotInstrukcije-frontend/straznjiKraj/Pages/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-k6wi3856r7

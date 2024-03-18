@@ -1,0 +1,47 @@
+@page
+@model DotgetPredavanje2.Pages.InstructionsDate.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>InstructionsDate</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="InstructionsDate.ID" />
+            <div class="form-group">
+                <label asp-for="InstructionsDate.StudentId" class="control-label"></label>
+                <input asp-for="InstructionsDate.StudentId" class="form-control" />
+                <span asp-validation-for="InstructionsDate.StudentId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InstructionsDate.ProfessorId" class="control-label"></label>
+                <input asp-for="InstructionsDate.ProfessorId" class="form-control" />
+                <span asp-validation-for="InstructionsDate.ProfessorId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InstructionsDate.DateTime" class="control-label"></label>
+                <input asp-for="InstructionsDate.DateTime" class="form-control" />
+                <span asp-validation-for="InstructionsDate.DateTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InstructionsDate.Status" class="control-label"></label>
+                <input asp-for="InstructionsDate.Status" class="form-control" />
+                <span asp-validation-for="InstructionsDate.Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+

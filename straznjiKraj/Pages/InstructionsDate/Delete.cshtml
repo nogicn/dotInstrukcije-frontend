@@ -1,0 +1,46 @@
+@page
+@model DotgetPredavanje2.Pages.InstructionsDate.DeleteModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>InstructionsDate</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InstructionsDate.StudentId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InstructionsDate.StudentId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InstructionsDate.ProfessorId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InstructionsDate.ProfessorId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InstructionsDate.DateTime)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InstructionsDate.DateTime)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.InstructionsDate.Status)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.InstructionsDate.Status)
+        </dd>
+    </dl>
+    
+    <form method="post">
+        <input type="hidden" asp-for="InstructionsDate.ID" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-page="./Index">Back to List</a>
+    </form>
+</div>

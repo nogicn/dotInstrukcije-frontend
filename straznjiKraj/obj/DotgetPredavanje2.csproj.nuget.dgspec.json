@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\FRM-PC 5\\DotgetPredavanje2\\DotgetPredavanje2.csproj": {}
+    "C:\\Users\\kiler\\Documents\\GitHub\\dotInstrukcije-frontend\\straznjiKraj\\DotgetPredavanje2.csproj": {}
   },
   "projects": {
-    "C:\\Users\\FRM-PC 5\\DotgetPredavanje2\\DotgetPredavanje2.csproj": {
+    "C:\\Users\\kiler\\Documents\\GitHub\\dotInstrukcije-frontend\\straznjiKraj\\DotgetPredavanje2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\FRM-PC 5\\DotgetPredavanje2\\DotgetPredavanje2.csproj",
+        "projectUniqueName": "C:\\Users\\kiler\\Documents\\GitHub\\dotInstrukcije-frontend\\straznjiKraj\\DotgetPredavanje2.csproj",
         "projectName": "DotgetPredavanje2",
-        "projectPath": "C:\\Users\\FRM-PC 5\\DotgetPredavanje2\\DotgetPredavanje2.csproj",
-        "packagesPath": "C:\\Users\\FRM-PC 5\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\FRM-PC 5\\DotgetPredavanje2\\obj\\",
+        "projectPath": "C:\\Users\\kiler\\Documents\\GitHub\\dotInstrukcije-frontend\\straznjiKraj\\DotgetPredavanje2.csproj",
+        "packagesPath": "C:\\Users\\kiler\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\kiler\\Documents\\GitHub\\dotInstrukcije-frontend\\straznjiKraj\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\FRM-PC 5\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\kiler\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -38,11 +34,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -63,6 +54,10 @@
               "target": "Package",
               "version": "[8.0.3, )"
             },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[8.0.3, )"
+            },
             "Microsoft.EntityFrameworkCore.Sqlite": {
               "target": "Package",
               "version": "[8.0.3, )"
@@ -72,6 +67,10 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[8.0.3, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[8.0.2, )"
             }
           },
           "imports": [
@@ -93,7 +92,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.201/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

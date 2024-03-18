@@ -1,4 +1,4 @@
-﻿using DotgetPredavanje2.Models;
+using DotgetPredavanje2.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace DotgetPredavanje2.Data
@@ -13,9 +13,11 @@ namespace DotgetPredavanje2.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite(@"Data Source=X:\SQLite\dotget.db");
+            optionsBuilder.UseSqlite(@"Data Source=E:\SQLite\dotget.db");
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<DotgetPredavanje2.Models.Subject> Subject { get; set; } = default!;
+        public DbSet<DotgetPredavanje2.Models.InstructionsDate> InstructionsDate { get; set; } = default!;
     }
 }
