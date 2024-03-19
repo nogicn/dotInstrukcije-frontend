@@ -16,6 +16,8 @@ function ProfilePage() {
   useEffect(() => {
     const fetchInstructions = async () => {
       const fetchedInstructions = await getInstructions();
+      console.log(fetchedInstructions);
+      console.log(fetchedInstructions.sentInstructionRequests)
       setPastInstructions(fetchedInstructions.pastInstructions);
       setUpcomingInstructions(fetchedInstructions.upcomingInstructions);
       setSentInstructionRequests(fetchedInstructions.sentInstructionRequests);
@@ -44,6 +46,7 @@ function ProfilePage() {
               showSubject={true}
               buttonText={"Promijeni"}
               buttonVariant={"outlined"}
+              
             />
           </div>
 
@@ -55,6 +58,7 @@ function ProfilePage() {
               showSubject={true}
               buttonText={"Promijeni"}
               buttonVariant={"outlined"}
+              
             />
           </div>
 
@@ -65,6 +69,7 @@ function ProfilePage() {
               showTime={true}
               showSubject={true}
               buttonText={"Ponovno dogovori"}
+              
             />
           </div>
         </div>

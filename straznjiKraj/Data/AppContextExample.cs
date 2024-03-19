@@ -19,5 +19,6 @@ namespace DotgetPredavanje2.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Subject> Subject { get; set; } = default!;
         public DbSet<InstructionsDate> InstructionsDate { get; set; } = default!;
+        public DbSet<StanjeZahtjeva> StanjeZahtjeva { get; set; } = default!;
     }
 }

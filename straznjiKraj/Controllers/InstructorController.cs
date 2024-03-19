@@ -146,9 +146,19 @@ namespace DotgetPredavanje2.Controllers
         public async Task<IActionResult> GetAllUsers()
         {
            // select all suers whre Subjects != null
-           var users = await context.Users.Where(u => u.Subjects != null).ToListAsync();
-
-            return Ok(new { success = true, users });
+           var users = await context.Users.Where(u => u.Subjects != null).Select(
+               p => new
+               {
+                   _id = p.ID,
+                   p.Name,
+                   p.Surname,
+                   p.Email,
+                   profilePictureUrl = p.ProfilePicture,
+                   p.Subjects,
+                   instructionsCount = p.InstructionsCount
+               }).ToListAsync();
+            
+            return Ok(new { success = true, professors = users });
         }
 
         [Authorize]
@@ -166,7 +176,7 @@ namespace DotgetPredavanje2.Controllers
         }
 
         [Authorize]
-        [HttpPut("professor/w{id}")]
+        [HttpPut("professor/{id}")]
         public async Task<IActionResult> UpdateUserById(int id, ProfessorUpdateModel model)
         {
             if (!ModelState.IsValid)

@@ -116,30 +116,57 @@ namespace DotgetPredavanje2.Controllers
         [HttpPost("instructions")]
         public async Task<IActionResult> ScheduleInstructionSession(InstructionSessionModel model)
         {
-            // Validate the model
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
             
-            // get student id using email from token
-            var studentEmail = User.FindFirst(ClaimTypes.Email)?.Value;
-            var student = await context.Users.FirstOrDefaultAsync(u => u.Email == studentEmail);
+            var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+            var user = await context.Users.FirstOrDefaultAsync(u => u.Email == userEmail);
             
-            if (student == null) return NotFound(new { success = false, message = "Student not found." });
+            if (user == null) return NotFound(new { success = false, message = "Student not found." });
 
-            // Create a new InstructionSession entity
-            var instructionSession = new InstructionsDate
+            if (model.ProfessorId == 0) return BadRequest(new { success = false, message = "Professor not found." });
+            
+            var studentID = user.ID;
+            var professorID = model.ProfessorId;
+            
+            if (user.Subjects != null)
             {
-                DateTime = model.Date,
-                ProfessorId = model.ProfessorId,
-                StudentId = student.ID,
-                Status = "poslan zahtjev"
-                
-            };
+                studentID = model.ProfessorId;
+                professorID = user.ID;
+            }
+            
+            var exists = await context.InstructionsDate.FirstOrDefaultAsync(i => i.StudentId == studentID && i.ProfessorId == professorID);
 
-            // Add the new InstructionSession to the database context
-            context.InstructionsDate.Add(instructionSession);
+            
+            
+            
+            
+            if (exists != null)
+            {
+
+                if (model.Date != null) exists.DateTime = model.Date;
+                
+                context.InstructionsDate.Update(exists);
+            }
+            else
+            {
+                // Create a new InstructionSession entity
+                var instructionSession = new InstructionsDate
+                {
+                    DateTime = model.Date,
+                    ProfessorId = model.ProfessorId,
+                    StudentId = user.ID,
+                    StanjeZahtjevaID = 1
+               
+                
+                };
+                // Add the new InstructionSession to the database context
+                context.InstructionsDate.Add(instructionSession);
+            }
+
+            
 
             // Save the changes to the database
             var result = await context.SaveChangesAsync();
@@ -155,16 +182,114 @@ namespace DotgetPredavanje2.Controllers
         [HttpGet("instructions")]
         public async Task<IActionResult> GetInstructionSessions()
         {
-            // Query the database to retrieve all instruction sessions
-            var instructionSessions = await context.InstructionsDate.Select(
+            var email = User.FindFirst(ClaimTypes.Email)?.Value;
+            var user = await context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            
+            var instructions = await context.InstructionsDate.Where(i => i.ProfessorId == user.ID || i.StudentId == user.ID).Select(
                 i => new
                 {
+                    i.ID,
+                    i.StudentId,
+                    i.ProfessorId,
                     i.DateTime,
-                    i.ProfessorId
+                    i.StanjeZahtjevaID
                 }).ToListAsync();
+            if (instructions.Count == 0) return NotFound(new { success = false, message = "No instructions found." });
 
-            // Return a success response with the list of instruction sessions
-            return Ok(new { success = true, instructionSessions });
+            
+            if (user.Subjects == null)
+            {
+                
+                var professors = await context.Users.Where(u => u.Subjects != null ).Select(
+                    p => new
+                    {
+                        _id = p.ID,
+                        p.Name,
+                        p.Surname,
+                        p.Email,
+                        profilePictureUrl = p.ProfilePicture,
+                        p.Subjects,
+                        instructionsCount = p.InstructionsCount,
+                    }).ToListAsync();
+            
+                var tmp = new List<ProfessorWithTime>();
+                foreach (var i in instructions)
+                {
+                    var professor = professors.FirstOrDefault(p => p._id == i.ProfessorId);
+                    if (professor != null)
+                    {
+                        var prof = new ProfessorWithTime
+                        {
+                            _id = professor._id,
+                            Name = professor.Name,
+                            Surname = professor.Surname,
+                            Email = professor.Email,
+                            Time = i.DateTime,
+                            ProfilePictureUrl = professor.profilePictureUrl,
+                            Subjects = professor.Subjects
+                        };
+                        tmp.Add(prof);
+                    }
+                }
+                Console.WriteLine(tmp.First());
+                var professorsSent = tmp.Where(p => p.Time > DateTime.Now).ToList();
+                //var professorsPast = tmp.Where(p => instructions.Any(i => i.ProfessorId == p._id && i.StanjeZahtjevaID == 3)).ToList();
+                //get users where the date is past today
+                var professorsPast = tmp.Where(p => p.Time < DateTime.Now).ToList();
+                return Ok(new { success = true, 
+                    sentInstructionRequests = professorsSent,
+                    pastInstructions = professorsPast
+                });
+            }
+            
+            
+            
+            // tu krece za profesora
+           
+            var users = await context.Users.Where(u => u.Subjects == null ).Select(
+                p => new
+                {
+                    _id = p.ID,
+                    p.Name,
+                    p.Surname,
+                    p.Email,
+                    profilePictureUrl = p.ProfilePicture,
+                }).ToListAsync();
+            
+            Console.WriteLine(users.Count);
+            
+            var tmp2 = new List<ProfessorWithTime>();
+            foreach (var i in instructions)
+            {
+                var student = users.FirstOrDefault(p => p._id == i.StudentId);
+                if (student != null)
+                {
+                    var prof = new ProfessorWithTime
+                    {
+                        ID = student._id,
+                        _id = student._id,
+                        Name = student.Name,
+                        Surname = student.Surname,
+                        Email = student.Email,
+                        Subjects = user.Subjects,
+                        Time = i.DateTime,
+                        ProfilePictureUrl = student.profilePictureUrl
+                    };
+                    tmp2.Add(prof);
+                }
+            }
+            Console.WriteLine(tmp2.Count);
+            Console.WriteLine(tmp2.First());
+            Console.WriteLine("AAA");
+            var studentSent = tmp2.Where(p => p.Time > DateTime.Now).ToList();
+            
+            //var studentPast = tmp2.Where(p => instructions.Any(i => i.StudentId == p._id && i.StanjeZahtjevaID == 3)).ToList();
+            //get users where the date is past today
+            var studentPast = tmp2.Where(p  => p.Time < DateTime.Now).ToList();
+            return Ok(new { success = true, 
+                upcomingInstructions = studentSent,
+                pastInstructions = studentPast
+            });
         }
         
 

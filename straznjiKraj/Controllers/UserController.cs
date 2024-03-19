@@ -125,7 +125,7 @@ namespace DotgetPredavanje2.Controllers
             var response = new
             {
                 success = true,
-                user = new { user.ID, user.Name, user.Surname, user.Email }
+                student = new { user.ID, user.Name, user.Surname, user.Email }
             };
 
             return Ok(response);
@@ -139,11 +139,19 @@ namespace DotgetPredavanje2.Controllers
             var user = await context.Users.FirstOrDefaultAsync(u => u.Email == email);
 
             if (user == null) return NotFound(new { success = false, message = "User not found." });
+            
+            // get all instructions for user
+            var instructions = await context.InstructionsDate.Where(i => i.StudentId == user.ID).ToListAsync();
+            
+            // 
 
             var response = new
             {
                 success = true,
                 student = new { user.ID, user.Name, user.Surname, user.Email },
+                sentInstructionsRequests = instructions.Where(i => i.StanjeZahtjevaID == 1).ToList(),
+                upcomingInstructions = instructions.Where(i => i.StanjeZahtjevaID == 2).ToList(),
+                pastInstructions = instructions.Where(i => i.StanjeZahtjevaID == 3).ToList(),
                 message = "User found."
             };
 

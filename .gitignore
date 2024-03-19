@@ -27,3 +27,4 @@ dist-ssr
 *.dll
 /straznjiKraj/obj/Debug
 straznjiKraj/dotget.db
+/straznjiKraj/obj

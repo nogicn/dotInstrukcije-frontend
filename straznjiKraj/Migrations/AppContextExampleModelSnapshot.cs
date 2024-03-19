@@ -29,9 +29,8 @@ namespace DotgetPredavanje2.Migrations
                     b.Property<int>("ProfessorId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("StanjeZahtjevaID")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("StudentId")
                         .HasColumnType("INTEGER");
@@ -39,6 +38,21 @@ namespace DotgetPredavanje2.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("InstructionsDate");
+                });
+
+            modelBuilder.Entity("DotgetPredavanje2.Models.StanjeZahtjeva", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("StanjeZahtjeva");
                 });
 
             modelBuilder.Entity("DotgetPredavanje2.Models.Subject", b =>
