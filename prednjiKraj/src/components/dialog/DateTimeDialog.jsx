@@ -8,7 +8,7 @@ import { Button, Dialog, DialogContent, DialogTitle } from "@mui/material";
 import { sentInstructionDate } from "../../api/ProfessorApi";
 
 const DateTimeDialog = ({ open, onClose, professor }) => {
-  const [value, setValue] = React.useState(dayjs("2024-03-15T15:30"));
+  const [value, setValue] = React.useState(dayjs());
 
   const handleClose = () => {
     sentInstructionDate(value, professor._id);

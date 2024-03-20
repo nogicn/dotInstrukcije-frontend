@@ -1,3 +1,9 @@
+# Sto sam dodao
+
+Da datum je danas za sat vremena minimum umjesto preset dana
+
+Dodao settings page
+
 # dotInstrukcije
 
 figma: https://www.figma.com/file/H7MiCGddxAWLAusmMXpeDq/dotInstrukcije?type=design&mode=design&t=yN0IyoeuWHCsdUJk-0

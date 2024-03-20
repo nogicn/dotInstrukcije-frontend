@@ -114,7 +114,7 @@ namespace DotgetPredavanje2.Controllers
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        [Authorize]
+        /*[Authorize]
         [HttpGet("student/{id}")]
         public async Task<IActionResult> GetUserByID(int id)
         {
@@ -129,7 +129,7 @@ namespace DotgetPredavanje2.Controllers
             };
 
             return Ok(response);
-        }
+        }*/
         
         // get student by email
         [Authorize]
@@ -148,7 +148,7 @@ namespace DotgetPredavanje2.Controllers
             var response = new
             {
                 success = true,
-                student = new { user.ID, user.Name, user.Surname, user.Email },
+                student = new { user.ID, user.Name, user.Surname, user.Email, profilePictureUrl = user.ProfilePicture },
                 sentInstructionsRequests = instructions.Where(i => i.StanjeZahtjevaID == 1).ToList(),
                 upcomingInstructions = instructions.Where(i => i.StanjeZahtjevaID == 2).ToList(),
                 pastInstructions = instructions.Where(i => i.StanjeZahtjevaID == 3).ToList(),
@@ -176,7 +176,7 @@ namespace DotgetPredavanje2.Controllers
         }
 
         [Authorize]
-        [HttpDelete("{id}")]
+        [HttpDelete("student/{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
             var user = await context.Users.FindAsync(id);
@@ -190,7 +190,7 @@ namespace DotgetPredavanje2.Controllers
         }
 
         [Authorize]
-        [HttpPut("{id}")]
+        [HttpPut("student/{id}")]
         public async Task<IActionResult> UpdateUserById(int id, UserUpdateModel model)
         {
             if (!ModelState.IsValid)
@@ -221,9 +221,16 @@ namespace DotgetPredavanje2.Controllers
                 hasChange = true;
             }
             
-            if (model.ProfilePicture != null && model.ProfilePicture != user.ProfilePicture)
+            if (model.ProfilePicture != null && model.ProfilePicture.FileName != user.ProfilePicture)
             {
-                user.ProfilePicture = model.ProfilePicture;
+                var fileName = Guid.NewGuid().ToString() + Path.GetExtension(model.ProfilePicture.FileName);
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/profilePictures", fileName);
+
+                using (var stream = System.IO.File.Create(filePath))
+                {
+                    await model.ProfilePicture.CopyToAsync(stream);
+                }
+                user.ProfilePicture = "/profilePictures/" + fileName;
                 hasChange = true;
             }
             
