@@ -52,7 +52,7 @@ namespace DotgetPredavanje2.Controllers
                     Surname = model.Surname,
                     Email = model.Email,
                     Password = PasswordUtils.HashPassword(model.Password),
-                    Subjects = model.Subjects,
+                    Subjects = model.Subjects[0].ToString().Split(","),
                     ProfilePicture = "/profilePictures/" + fileName
                 };
 
@@ -216,6 +216,12 @@ namespace DotgetPredavanje2.Controllers
             if (model.Password != null)
             {
                 user.Password = PasswordUtils.HashPassword(model.Password);
+                hasChange = true;
+            }
+            
+            if (model.Subjects != null && model.Subjects != user.Subjects)
+            {
+                user.Subjects = model.Subjects;
                 hasChange = true;
             }
 

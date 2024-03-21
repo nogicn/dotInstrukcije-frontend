@@ -143,12 +143,13 @@ namespace DotgetPredavanje2.Controllers
             // get all instructions for user
             var instructions = await context.InstructionsDate.Where(i => i.StudentId == user.ID).ToListAsync();
             
-            // 
+            // all subjects
+            var subjects = await context.Subject.ToListAsync();
 
             var response = new
             {
                 success = true,
-                student = new { user.ID, user.Name, user.Surname, user.Email, profilePictureUrl = user.ProfilePicture },
+                student = new { user.ID, user.Name, user.Surname, user.Email, profilePictureUrl = user.ProfilePicture, subjects = subjects, description = user.Subjects },
                 sentInstructionsRequests = instructions.Where(i => i.StanjeZahtjevaID == 1).ToList(),
                 upcomingInstructions = instructions.Where(i => i.StanjeZahtjevaID == 2).ToList(),
                 pastInstructions = instructions.Where(i => i.StanjeZahtjevaID == 3).ToList(),
@@ -240,12 +241,18 @@ namespace DotgetPredavanje2.Controllers
                 hasChange = true;
             }
             
-            
+            if (model.Subjects != null && model.Subjects != user.Subjects)
+            {
+                user.Subjects = model.Subjects;
+                hasChange = true;
+            }
 
             if (hasChange) await context.SaveChangesAsync();
 
+           
+            
             string message = hasChange ? "User updated successfully." : "No updates on user.";
-            return base.Ok(new { success = true, message, user = new { user.ID, user.Name, user.Surname, user.Email } });
+            return base.Ok(new { success = true, message, user = new { user.ID, user.Name, user.Surname, user.Email, user.Subjects } });
         }
     }
 }

@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <Folder Include="Pages\InstructionsDate\" />
+    <Folder Include="Pages\new\" />
     <Folder Include="Pages\Stanje\" />
     <Folder Include="Pages\Subject\" />
     <Folder Include="Pages\User\" />

@@ -8,5 +8,7 @@
         public IFormFile? ProfilePicture { get; set; }
         
         public string? Password { get; set; }
+        
+        public string[]? Subjects { get; set; }
     }
 }

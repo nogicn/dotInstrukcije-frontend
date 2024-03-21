@@ -1,0 +1,24 @@
+.profilepage-wrapper {
+    width: 100vw;
+    height: 98vh;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .profilepage-container {
+    width: 90%;
+    margin: 2rem 0;
+  }
+  
+  .student-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .student-image {
+    border-radius: 100px;
+    max-width: 200px;
+    max-height: 200px;
+  }
