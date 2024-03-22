@@ -16,8 +16,17 @@ function SettingsPage() {
   const [subjects, setSubjects] = useState([]);
   const [submittedSubjects, setSubmittedSubjects] = useState([]);
   const [description, setDescription] = useState([]);
+  const [isPasswordValid, setIsPasswordValid] = useState(true);
+
 
   const handleSave = async () => {
+
+    if (password === "") {
+      setIsPasswordValid(false);
+      return;
+    }
+    setIsPasswordValid(true);
+
     // post to server 
     let user = JSON.parse(localStorage.getItem('user'));
 
@@ -130,14 +139,22 @@ function SettingsPage() {
         <h1>Settings</h1>
         <InputLabel>Email</InputLabel>
         <OutlinedInput value={email} onChange={(e) => setEmail(e.target.value)} />
-        <InputLabel>Name</InputLabel>
+        <InputLabel>Ime</InputLabel>
         <OutlinedInput value={name} onChange={(e) => setName(e.target.value)} />
-        <InputLabel>Surname</InputLabel>
+        <InputLabel>Prezime</InputLabel>
         <OutlinedInput value={surname} onChange={(e) => setSurname(e.target.value)} />
-        <InputLabel>Password</InputLabel>
-        <OutlinedInput value={password} onChange={(e) => setPassword(e.target.value)} />
-        <InputLabel>Current profile Picture</InputLabel>
+        <InputLabel>Nova profilna slika</InputLabel>
         <input type="file" onChange={(e) => setProfilePicture(e.target.files[0])} />
+        <InputLabel>Unesite password prije promjene</InputLabel>
+        {!isPasswordValid ? <p style={{ color: "red" }}>Niste unijeli password!</p> : null }
+        <OutlinedInput
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          style={{ borderColor: isPasswordValid ? "" : "red" }} // Change border color if password is invalid
+        />
+        <div></div>
+        
         {description.length !== 0 ? (
           <>
             <Autocomplete

@@ -198,6 +198,15 @@ namespace DotgetPredavanje2.Controllers
             {
                 return BadRequest(ModelState);
             }
+            
+            if (model.Password != null)
+            {
+                // check if password is valid
+                if (!PasswordUtils.VerifyPassword(model.Password, context.Users.Find(id).Password))
+                {
+                    return Unauthorized(new { success = false, message = "Authentication failed. Incorrect password." });
+                }
+            }
 
             var user = await context.Users.FindAsync(id);
             if (user == null) return NotFound(new { success = false, message = "User not found." });
@@ -235,11 +244,7 @@ namespace DotgetPredavanje2.Controllers
                 hasChange = true;
             }
             
-            if (model.Password != null)
-            {
-                user.Password = PasswordUtils.HashPassword(model.Password);
-                hasChange = true;
-            }
+            
             
             Console.WriteLine(model.Subjects?[0] == "");
             if (model.Subjects != null && model.Subjects.Length > 0)
