@@ -4,7 +4,14 @@ Da datum je danas za sat vremena minimum umjesto preset dana
 
 Dodao settings page
 
-Dodao limit da moze biti maksimalno 3 aktivna polja za instrukcije i nesmije bit duplikata
+Dodao limit da moze biti maksimalno 3 aktivna polja za instrukcije i nesmije bit duplikat
+
+Dodao provjere postoji li već korisnik s istim emailom
+
+Student moze imati maksimalano 3 aktivna datuma instrukcija
+
+TODO:
+kad god ima poruka u returnu, napravit popup da izjavi najnovije stanje (tipa dodan novi predmet, ili nemres imat vise od 3 aktivna predmeta)
 
 
 # dotInstrukcije

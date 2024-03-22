@@ -31,6 +31,13 @@ namespace DotgetPredavanje2.Controllers
             {
                 return BadRequest(ModelState);
             }
+            
+            // check if url aready exists in the database
+            var urlExists = await context.Subject.AnyAsync(s => s.Url == model.Url);
+            if (urlExists)
+            {
+                return BadRequest(new { success = false, message = "Subject with this URL already exists." });
+            }
 
             // Create a new Subject entity
             var subject = new Subject
@@ -124,6 +131,20 @@ namespace DotgetPredavanje2.Controllers
             var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
             var user = await context.Users.FirstOrDefaultAsync(u => u.Email == userEmail);
             
+            // check if user has subjects
+            if (user.Subjects == null)
+            {
+                // get all instructions for user that are still active with todays date and time
+                var instructions = await context.InstructionsDate.Where(i => i.StudentId == user.ID && i.DateTime > DateTime.Now).ToListAsync();
+                Console.WriteLine(instructions.Count);
+                Console.WriteLine(instructions);
+                if (instructions.Count >= 3)
+                {
+                    return BadRequest(new { success = false, message = "Maksimalno možete imati 3 aktivna datuma instrukcija!" });
+                }
+                
+            }
+            
             if (user == null) return NotFound(new { success = false, message = "Student not found." });
 
             if (model.ProfessorId == 0) return BadRequest(new { success = false, message = "Professor not found." });
@@ -138,10 +159,6 @@ namespace DotgetPredavanje2.Controllers
             }
             
             var exists = await context.InstructionsDate.FirstOrDefaultAsync(i => i.StudentId == studentID && i.ProfessorId == professorID);
-
-            
-            
-            
             
             if (exists != null)
             {
@@ -231,7 +248,7 @@ namespace DotgetPredavanje2.Controllers
                         tmp.Add(prof);
                     }
                 }
-                Console.WriteLine(tmp.First());
+                
                 var professorsSent = tmp.Where(p => p.Time > DateTime.Now).ToList();
                 //var professorsPast = tmp.Where(p => instructions.Any(i => i.ProfessorId == p._id && i.StanjeZahtjevaID == 3)).ToList();
                 //get users where the date is past today
@@ -256,7 +273,7 @@ namespace DotgetPredavanje2.Controllers
                     profilePictureUrl = p.ProfilePicture,
                 }).ToListAsync();
             
-            Console.WriteLine(users.Count);
+            
             
             var tmp2 = new List<ProfessorWithTime>();
             foreach (var i in instructions)
@@ -278,9 +295,7 @@ namespace DotgetPredavanje2.Controllers
                     tmp2.Add(prof);
                 }
             }
-            Console.WriteLine(tmp2.Count);
-            Console.WriteLine(tmp2.First());
-            Console.WriteLine("AAA");
+            
             var studentSent = tmp2.Where(p => p.Time > DateTime.Now).ToList();
             
             //var studentPast = tmp2.Where(p => instructions.Any(i => i.StudentId == p._id && i.StanjeZahtjevaID == 3)).ToList();

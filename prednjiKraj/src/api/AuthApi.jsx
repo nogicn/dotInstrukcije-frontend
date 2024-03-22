@@ -51,7 +51,7 @@ export const handlerRegister = async (formData, user) => {
       {}
     );
 
-    if (response.status === 201) {
+    if (response.status === 201 || response.status === 200) {
       console.log(user + " registered successfully");
       window.location.href = "/login";
     } else {

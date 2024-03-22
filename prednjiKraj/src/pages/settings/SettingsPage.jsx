@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Button, InputLabel, OutlinedInput, InputAdornment } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -8,19 +8,17 @@ import { getSubjects } from "../../api/SubjectApi";
 
 function SettingsPage() {
   const [email, setEmail] = useState("");
-
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [password, setPassword] = useState("");
-  const [profilePicture, setProfilePicture] = useState(""); // New state for uploaded file
+  const [profilePicture, setProfilePicture] = useState(null); // New state for uploaded file
+  const [profilePictureURL, setProfilePictureURL] = useState(""); // New state for URL of uploaded file
   const [subjects, setSubjects] = useState([]);
   const [submittedSubjects, setSubmittedSubjects] = useState([]);
   const [description, setDescription] = useState([]);
   const [isPasswordValid, setIsPasswordValid] = useState(true);
 
-
   const handleSave = async () => {
-
     if (password === "") {
       setIsPasswordValid(false);
       return;
@@ -82,7 +80,7 @@ function SettingsPage() {
       setEmail(result.student.email || "");
       setName(result.student.name || "");
       setSurname(result.student.surname || "");
-      setProfilePicture(result.student.profilePictureUrl || "");
+      setProfilePictureURL(result.student.profilePictureUrl || ""); // Store URL of the profile picture
       setSubjects(result.student.subjects || []);
       setDescription(result.student.description || []);
 
@@ -103,7 +101,9 @@ function SettingsPage() {
 
   const handleSubjectSelect = (event, value) => {
     if (value) {
-      if (submittedSubjects.length < 3) { // impose maximum of 3 submitted subjects
+      if (submittedSubjects.length < 3) {
+        // check that it doesnt already exist in the submittedSubjects
+        if (!submittedSubjects.find((subject) => subject.url === value.url))
         setSubmittedSubjects((prevSubjects) => [...prevSubjects, value]);
       }
     }
@@ -119,7 +119,7 @@ function SettingsPage() {
     <div className="profilepage-wrapper">
       <div className="profilepage-container">
         <div className="student-info">
-          <img src={import.meta.env.VITE_REACT_DATA_URL + profilePicture} className="student-image" />
+          <img src={profilePicture ? URL.createObjectURL(profilePicture) : import.meta.env.VITE_REACT_DATA_URL +profilePictureURL} className="student-image" />
           <div key={email}>
             <h1>{name} {surname}</h1>
 
@@ -129,9 +129,7 @@ function SettingsPage() {
               </>
             ) : null}
             {description.map((desc) => (
-              <>
-                <p>{desc}</p>
-              </>
+              <p key={desc}>{desc}</p>
             ))}
           </div>
         </div>
@@ -144,17 +142,19 @@ function SettingsPage() {
         <InputLabel>Prezime</InputLabel>
         <OutlinedInput value={surname} onChange={(e) => setSurname(e.target.value)} />
         <InputLabel>Nova profilna slika</InputLabel>
-        <input type="file" onChange={(e) => setProfilePicture(e.target.files[0])} />
+        <input type="file" onChange={(e) => {
+          setProfilePicture(e.target.files[0]);
+          setProfilePictureURL(""); // Clear the URL when a new image is uploaded
+        }} />
         <InputLabel>Unesite password prije promjene</InputLabel>
-        {!isPasswordValid ? <p style={{ color: "red" }}>Niste unijeli password!</p> : null }
+        {!isPasswordValid ? <p style={{ color: "red" }}>Niste unijeli password!</p> : null}
         <OutlinedInput
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           style={{ borderColor: isPasswordValid ? "" : "red" }} // Change border color if password is invalid
         />
-        <div></div>
-        
+
         {description.length !== 0 ? (
           <>
             <Autocomplete

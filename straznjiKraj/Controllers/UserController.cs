@@ -31,8 +31,14 @@ namespace DotgetPredavanje2.Controllers
         {
             if (ModelState.IsValid)
             {
+                var userExists = await context.Users.AnyAsync(u => u.Email == model.Email);
+                if (userExists)
+                {
+                    return BadRequest(new { success = false, message = "User with this email already exists." });
+                }
                 var fileName = Guid.NewGuid().ToString() + Path.GetExtension(model.ProfilePicture.FileName);
                 var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/profilePictures", fileName);
+                
 
                 using (var stream = System.IO.File.Create(filePath))
                 {
@@ -249,6 +255,13 @@ namespace DotgetPredavanje2.Controllers
             Console.WriteLine(model.Subjects?[0] == "");
             if (model.Subjects != null && model.Subjects.Length > 0)
             {
+                
+                
+                // if the user is trying to register more then 3 subjects stop him
+                if (model.Subjects[0].Split(",").Length > 3)
+                {
+                    return BadRequest(new { success = false, message = "You can't register more then 3 subjects." });
+                }
                 user.Subjects = model.Subjects[0]?.Split(",");
                 hasChange = true;
             }

@@ -39,8 +39,15 @@ namespace DotgetPredavanje2.Controllers
         {
             if (ModelState.IsValid)
             {
+                var userExists = await context.Users.AnyAsync(u => u.Email == model.Email);
+                if (userExists)
+                {
+                    return BadRequest(new { success = false, message = "User with this email already exists." });
+                }
                 var fileName = Guid.NewGuid().ToString() + Path.GetExtension(model.ProfilePicture.FileName);
                 var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/profilePictures", fileName);
+                
+                // check if email already exists
 
                 using (var stream = System.IO.File.Create(filePath))
                 {
