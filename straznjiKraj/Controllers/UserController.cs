@@ -241,9 +241,10 @@ namespace DotgetPredavanje2.Controllers
                 hasChange = true;
             }
             
-            if (model.Subjects != null && model.Subjects != user.Subjects)
+            Console.WriteLine(model.Subjects?[0] == "");
+            if (model.Subjects != null && model.Subjects.Length > 0)
             {
-                user.Subjects = user.Subjects = model.Subjects[0].ToString().Split(",");
+                user.Subjects = model.Subjects[0]?.Split(",");
                 hasChange = true;
             }
 

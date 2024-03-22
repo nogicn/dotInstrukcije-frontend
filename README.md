@@ -4,8 +4,8 @@ Da datum je danas za sat vremena minimum umjesto preset dana
 
 Dodao settings page
 
-TODO
-nakon svih uspjesnih poziva redirectaj gdje treba
+Dodao limit da moze biti maksimalno 3 aktivna polja za instrukcije i nesmije bit duplikata
+
 
 # dotInstrukcije
 

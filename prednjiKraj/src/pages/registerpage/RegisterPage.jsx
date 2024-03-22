@@ -85,8 +85,17 @@ function RegisterPage() {
 
   const handleSubjectSelect = (event, value) => {
     if (value) {
+      if (professorSubjects.length < 3) { // impose maximum of 3 submitted subjects
+
       setProfessorSubjects((prevSubjects) => [...prevSubjects, value]);
+      }
     }
+  };
+
+  const handleRemoveSubject = (subjectToRemove) => {
+    setSubmittedSubjects((prevSubjects) =>
+      prevSubjects.filter((subject) => subject !== subjectToRemove)
+    );
   };
 
 
@@ -341,6 +350,7 @@ function RegisterPage() {
                     <div className="predmet">
                       <h2 className="predmet-text">{subject.title}</h2>
                       <p className="predmet-text">{subject.description}</p>
+                      <Button onClick={() => handleRemoveSubject(subject)}>Remove</Button> {/* Button to remove subject */}
                     </div>
                   </div>
                 ))}

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, InputLabel, OutlinedInput,InputAdornment } from "@mui/material";
+import { Button, InputLabel, OutlinedInput, InputAdornment } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import "./SettingsPage.css";
@@ -8,6 +8,7 @@ import { getSubjects } from "../../api/SubjectApi";
 
 function SettingsPage() {
   const [email, setEmail] = useState("");
+
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [password, setPassword] = useState("");
@@ -27,7 +28,6 @@ function SettingsPage() {
     formData.append("password", password);
     formData.append("profilePicture", profilePicture);
     formData.append("subjects", submittedSubjects.map((s) => s.url));
-    
 
     const response = await fetch(
       import.meta.env.VITE_REACT_BACKEND_URL + "/student/" + user.id,
@@ -38,12 +38,21 @@ function SettingsPage() {
         },
         body: formData,
       }
-      );
-    };
-    
-    useEffect(() => {
+    );
+    if (response.ok) {
+      setSubjects([]);
+      setSubmittedSubjects([]);
+      setDescription([]);
       fetchUser();
-    }, []);
+    } else {
+      // Handle error if necessary
+      console.error("Failed to save data.");
+    }
+  };
+
+  useEffect(() => {
+    fetchUser()
+  }, []);
 
   const fetchUser = async () => {
     let user = JSON.parse(localStorage.getItem('user'));
@@ -69,26 +78,33 @@ function SettingsPage() {
       setDescription(result.student.description || []);
 
     }
-
   }
 
-  
-useEffect(() => {
-  // Update submittedSubjects after subjects state has been set
-  subjects.forEach((s) => {
-    if (description.length !== 0 && description.find((desc) => desc === s.url)) {
-      setSubmittedSubjects((prevSubjects) => [...prevSubjects, s]);
-    }
-  });
-}, [subjects, description]);
+  useEffect(() => {
+    // Update submittedSubjects after subjects state has been set
+    subjects.forEach((s) => {
+      if (description.length !== 0 && description.find((desc) => desc === s.url)) {
+        // also check if it already exists in the submittedSubjects
+        if (!submittedSubjects.find((subject) => subject.url === s.url)) {
+          setSubmittedSubjects((prevSubjects) => [...prevSubjects, s]);
+        }
+      }
+    });
+  }, [subjects, description]);
 
   const handleSubjectSelect = (event, value) => {
     if (value) {
-      setSubmittedSubjects((prevSubjects) => [...prevSubjects, value]);
-     
+      if (submittedSubjects.length < 3) { // impose maximum of 3 submitted subjects
+        setSubmittedSubjects((prevSubjects) => [...prevSubjects, value]);
+      }
     }
   };
 
+  const handleRemoveSubject = (subjectToRemove) => {
+    setSubmittedSubjects((prevSubjects) =>
+      prevSubjects.filter((subject) => subject !== subjectToRemove)
+    );
+  };
 
   return (
     <div className="profilepage-wrapper">
@@ -97,17 +113,21 @@ useEffect(() => {
           <img src={import.meta.env.VITE_REACT_DATA_URL + profilePicture} className="student-image" />
           <div key={email}>
             <h1>{name} {surname}</h1>
-            
-            {description.length != 0 ? (<>
-              <h2>Predmeti: </h2></>) : null}
-           {description.map((desc) => (<>
-            
-            <p>{desc}</p></>
-          ))}
+
+            {description.length !== 0 ? (
+              <>
+                <h2>Predmeti: </h2>
+              </>
+            ) : null}
+            {description.map((desc) => (
+              <>
+                <p>{desc}</p>
+              </>
+            ))}
           </div>
         </div>
 
-        <h1>Settings</h1> 
+        <h1>Settings</h1>
         <InputLabel>Email</InputLabel>
         <OutlinedInput value={email} onChange={(e) => setEmail(e.target.value)} />
         <InputLabel>Name</InputLabel>
@@ -118,38 +138,42 @@ useEffect(() => {
         <OutlinedInput value={password} onChange={(e) => setPassword(e.target.value)} />
         <InputLabel>Current profile Picture</InputLabel>
         <input type="file" onChange={(e) => setProfilePicture(e.target.files[0])} />
-        {description.length != 0 ? (<>
-          <Autocomplete
-          disablePortal
-          id="combo-box-demo"
-          options={subjects}
-          getOptionLabel={(option) => option.title}
-          onChange={handleSubjectSelect}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              InputProps={{
-                ...params.InputProps,
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <img
-                      src="/icons/search-icon.svg"
-                      style={{ height: "20px", width: "20px" }}
-                    />
-                  </InputAdornment>
-                ),
-              }}
+        {description.length !== 0 ? (
+          <>
+            <Autocomplete
+              disablePortal
+              id="combo-box-demo"
+              options={subjects}
+              getOptionLabel={(option) => option.title}
+              onChange={handleSubjectSelect}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  InputProps={{
+                    ...params.InputProps,
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <img
+                          src="/icons/search-icon.svg"
+                          style={{ height: "20px", width: "20px" }}
+                        />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              )}
             />
-          )}
-        />
-        {submittedSubjects.map((subject) => (
-          <div key={subject.url} className="link-no-style">
-            <div className="predmet">
-              <h2 className="predmet-text">{subject.title}</h2>
-              <p className="predmet-text">{subject.description}</p>
-            </div>
-          </div>
-        ))}</>) : null}
+            {submittedSubjects.map((subject) => (
+              <div key={subject.url} className="link-no-style">
+                <div className="predmet">
+                  <h2 className="predmet-text">{subject.title}</h2>
+                  <p className="predmet-text">{subject.description}</p>
+                  <Button onClick={() => handleRemoveSubject(subject)}>Remove</Button> {/* Button to remove subject */}
+                </div>
+              </div>
+            ))}
+          </>
+        ) : null}
         <Button onClick={handleSave}>Save</Button>
       </div>
     </div>
