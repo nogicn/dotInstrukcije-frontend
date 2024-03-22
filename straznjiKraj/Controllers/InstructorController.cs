@@ -221,7 +221,7 @@ namespace DotgetPredavanje2.Controllers
             
             if (model.Subjects != null && model.Subjects != user.Subjects)
             {
-                user.Subjects = model.Subjects;
+                user.Subjects = model.Subjects[0].ToString().Split(",");
                 hasChange = true;
             }
 

@@ -26,7 +26,7 @@ function SettingsPage() {
     formData.append("surname", surname);
     formData.append("password", password);
     formData.append("profilePicture", profilePicture);
-    formData.append("subjects", submittedSubjects)
+    formData.append("subjects", submittedSubjects.map((s) => s.url));
     
 
     const response = await fetch(
@@ -38,8 +38,12 @@ function SettingsPage() {
         },
         body: formData,
       }
-    );
-  };
+      );
+    };
+    
+    useEffect(() => {
+      fetchUser();
+    }, []);
 
   const fetchUser = async () => {
     let user = JSON.parse(localStorage.getItem('user'));
@@ -63,45 +67,47 @@ function SettingsPage() {
       setProfilePicture(result.student.profilePictureUrl || "");
       setSubjects(result.student.subjects || []);
       setDescription(result.student.description || []);
-      result.student.subjects.forEach((s) => {
-        if (result.student.description.find((desc) => desc.url === s.url)) {
-          setSubmittedSubjects((prevSubjects) => [...prevSubjects, s]);
-        }
-      });
-      
-      
+
     }
 
-
   }
+
+  
+useEffect(() => {
+  // Update submittedSubjects after subjects state has been set
+  subjects.forEach((s) => {
+    if (description.length !== 0 && description.find((desc) => desc === s.url)) {
+      setSubmittedSubjects((prevSubjects) => [...prevSubjects, s]);
+    }
+  });
+}, [subjects, description]);
 
   const handleSubjectSelect = (event, value) => {
     if (value) {
       setSubmittedSubjects((prevSubjects) => [...prevSubjects, value]);
+     
     }
   };
 
-
-  useEffect(() => {
-    fetchUser();
-    
-  }, []);
 
   return (
     <div className="profilepage-wrapper">
       <div className="profilepage-container">
         <div className="student-info">
           <img src={import.meta.env.VITE_REACT_DATA_URL + profilePicture} className="student-image" />
-          <div>
+          <div key={email}>
             <h1>{name} {surname}</h1>
-            <h2>Predmeti: </h2>
-           {description.map((desc) => (
-            <p>{desc}</p>
+            
+            {description.length != 0 ? (<>
+              <h2>Predmeti: </h2></>) : null}
+           {description.map((desc) => (<>
+            
+            <p>{desc}</p></>
           ))}
           </div>
         </div>
 
-        <h1>Settings</h1>
+        <h1>Settings</h1> 
         <InputLabel>Email</InputLabel>
         <OutlinedInput value={email} onChange={(e) => setEmail(e.target.value)} />
         <InputLabel>Name</InputLabel>
@@ -112,7 +118,7 @@ function SettingsPage() {
         <OutlinedInput value={password} onChange={(e) => setPassword(e.target.value)} />
         <InputLabel>Current profile Picture</InputLabel>
         <input type="file" onChange={(e) => setProfilePicture(e.target.files[0])} />
-        {subjects ? (<>
+        {description.length != 0 ? (<>
           <Autocomplete
           disablePortal
           id="combo-box-demo"
