@@ -1,7 +1,7 @@
 import ProfessorsComponent from "../../components/professors/ProfessorsComponent";
 import { getInstructions } from "../../api/ProfessorApi";
 import "./ProfilePage.css";
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 
 function ProfilePage() {
   if (!localStorage.getItem("token")) {
@@ -56,7 +56,7 @@ function ProfilePage() {
               professors={upcomingInstructions}
               showTime={true}
               showSubject={true}
-              buttonText={"Promijeni"}
+              buttonText={"Ponovno dogovori"}
               buttonVariant={"outlined"}
               
             />

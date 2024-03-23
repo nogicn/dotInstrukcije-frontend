@@ -8,12 +8,16 @@ import { Button, Dialog, DialogContent, DialogTitle } from "@mui/material";
 import { sentInstructionDate } from "../../api/ProfessorApi";
 
 const DateTimeDialog = ({ open, onClose, professor }) => {
-  const [value, setValue] = React.useState(dayjs());
+  const [value, setValue] = React.useState(dayjs().add(1, 'day'));
 
   const handleClose = () => {
     sentInstructionDate(value, professor._id);
     onClose();
   };
+
+  const closeWithoutSending = () => {
+    onClose();
+  }
 
   return (
     <Dialog open={open} onClose={handleClose}>
@@ -33,7 +37,7 @@ const DateTimeDialog = ({ open, onClose, professor }) => {
           <Button variant="contained" onClick={handleClose} style={{marginRight: "20px"}}>
             Pošalji zahtjev za instrukcije
           </Button>
-          <Button variant="outlined" onClick={handleClose}>
+          <Button variant="outlined" onClick={closeWithoutSending}>
             Odustani
           </Button>
         </div>

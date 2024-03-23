@@ -135,10 +135,9 @@ namespace DotgetPredavanje2.Controllers
             if (user.Subjects == null)
             {
                 // get all instructions for user that are still active with todays date and time
-                var instructions = await context.InstructionsDate.Where(i => i.StudentId == user.ID && i.DateTime > DateTime.Now).ToListAsync();
-                Console.WriteLine(instructions.Count);
-                Console.WriteLine(instructions);
-                if (instructions.Count >= 3)
+                var instructions = await context.InstructionsDate
+                    .Where(i => i.StudentId == user.ID && i.DateTime > DateTime.Now).ToListAsync();
+                if (instructions.Count > 4)
                 {
                     return BadRequest(new { success = false, message = "Maksimalno možete imati 3 aktivna datuma instrukcija!" });
                 }

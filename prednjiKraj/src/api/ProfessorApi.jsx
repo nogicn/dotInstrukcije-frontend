@@ -40,6 +40,7 @@ export async function sentInstructionDate(selectedDate, professorId) {
           throw new Error(`HTTP error! status: ${response.status}`);
       }
       const date = await response.json();
+      window.location.reload();
       return date;
   } catch (error) {
       console.error("There has been a problem with your fetch operation:", error);

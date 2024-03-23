@@ -7944,26 +7944,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\kiler\\.nuget\\packages\\": {}
+    "/home/uwupc/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\kiler\\Documents\\GitHub\\dotInstrukcije-frontend\\straznjiKraj\\DotgetPredavanje2.csproj",
+      "projectUniqueName": "/home/uwupc/Documents/clones/dotInstrukcije-frontend/straznjiKraj/DotgetPredavanje2.csproj",
       "projectName": "DotgetPredavanje2",
-      "projectPath": "C:\\Users\\kiler\\Documents\\GitHub\\dotInstrukcije-frontend\\straznjiKraj\\DotgetPredavanje2.csproj",
-      "packagesPath": "C:\\Users\\kiler\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\kiler\\Documents\\GitHub\\dotInstrukcije-frontend\\straznjiKraj\\obj\\",
+      "projectPath": "/home/uwupc/Documents/clones/dotInstrukcije-frontend/straznjiKraj/DotgetPredavanje2.csproj",
+      "packagesPath": "/home/uwupc/.nuget/packages/",
+      "outputPath": "/home/uwupc/Documents/clones/dotInstrukcije-frontend/straznjiKraj/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\kiler\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/home/uwupc/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -8034,7 +8032,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.103/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

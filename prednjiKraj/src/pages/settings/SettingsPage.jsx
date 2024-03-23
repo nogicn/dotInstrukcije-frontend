@@ -17,6 +17,8 @@ function SettingsPage() {
   const [submittedSubjects, setSubmittedSubjects] = useState([]);
   const [description, setDescription] = useState([]);
   const [isPasswordValid, setIsPasswordValid] = useState(true);
+  const [isDataFilled, setIsDataFilled] = useState(true);
+  const [isOriginallyTeacher, setIsOriginallyTeacher] = useState(false);
 
   const handleSave = async () => {
     if (password === "") {
@@ -24,6 +26,21 @@ function SettingsPage() {
       return;
     }
     setIsPasswordValid(true);
+
+    // check if every property is filled
+    if (email === "" || name === "" || surname === "" || profilePicture === null) {
+      setIsDataFilled(false);
+      return;
+    }
+
+    if (submittedSubjects.length === 0 && isOriginallyTeacher === true) {
+      setIsDataFilled(false);
+      return;
+    }
+
+
+    setIsDataFilled(true);
+
 
     // post to server 
     let user = JSON.parse(localStorage.getItem('user'));
@@ -83,6 +100,9 @@ function SettingsPage() {
       setProfilePictureURL(result.student.profilePictureUrl || ""); // Store URL of the profile picture
       setSubjects(result.student.subjects || []);
       setDescription(result.student.description || []);
+      if (result.student.description) {
+        setIsOriginallyTeacher(true);
+      }
 
     }
   }
@@ -146,14 +166,7 @@ function SettingsPage() {
           setProfilePicture(e.target.files[0]);
           setProfilePictureURL(""); // Clear the URL when a new image is uploaded
         }} />
-        <InputLabel>Unesite password prije promjene</InputLabel>
-        {!isPasswordValid ? <p style={{ color: "red" }}>Niste unijeli password!</p> : null}
-        <OutlinedInput
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          style={{ borderColor: isPasswordValid ? "" : "red" }} // Change border color if password is invalid
-        />
+        
 
         {description.length !== 0 ? (
           <>
@@ -191,9 +204,20 @@ function SettingsPage() {
             ))}
           </>
         ) : null}
+        
+        <InputLabel>Unesite password prije promjene</InputLabel>
+        {!isPasswordValid ? <p style={{ color: "red" }}>Niste unijeli password!</p> : null}
+        {!isDataFilled ? <p style={{ color: "red" }}>Niste unijeli sve podatke!</p> : null}
+        <OutlinedInput
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          style={{ borderColor: isPasswordValid ? "" : "red" }} // Change border color if password is invalid
+        />
         <Button onClick={handleSave}>Save</Button>
       </div>
     </div>
+    
   );
 }
 
