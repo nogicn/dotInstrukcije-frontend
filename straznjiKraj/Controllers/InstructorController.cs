@@ -190,6 +190,15 @@ namespace DotgetPredavanje2.Controllers
             {
                 return BadRequest(ModelState);
             }
+            
+            if (model.Password != null)
+            {
+                // check if password is valid
+                if (!PasswordUtils.VerifyPassword(model.Password, context.Users.Find(id).Password))
+                {
+                    return Unauthorized(new { success = false, message = "Authentication failed. Incorrect password." });
+                }
+            }
 
             var user = await context.Users.FindAsync(id);
             if (user == null) return NotFound(new { success = false, message = "User not found." });
@@ -213,22 +222,15 @@ namespace DotgetPredavanje2.Controllers
                 user.Surname = model.Surname;
                 hasChange = true;
             }
-
-            if (model.ProfilePicture != null && model.ProfilePicture != user.ProfilePicture)
-            {
-                user.ProfilePicture = model.ProfilePicture;
-                hasChange = true;
-            }
-
-            if (model.Password != null)
-            {
-                user.Password = PasswordUtils.HashPassword(model.Password);
-                hasChange = true;
-            }
             
-            if (model.Subjects != null && model.Subjects != user.Subjects)
+            if (model.Subjects != null && model.Subjects.Length > 0 && model.Subjects[0] != "")
             {
-                user.Subjects = model.Subjects[0].ToString().Split(",");
+                // if the user is trying to register more then 3 subjects stop him
+                if (model.Subjects[0].Split(",").Length > 3)
+                {
+                    return BadRequest(new { success = false, message = "You can't register more then 3 subjects." });
+                }
+                user.Subjects = model.Subjects[0]?.Split(",");
                 hasChange = true;
             }
 

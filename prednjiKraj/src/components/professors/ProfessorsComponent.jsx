@@ -57,9 +57,10 @@ function ProfessorsComponent({
 
             {showTime && (
               <div className="instructionsCount-container">
-                <img src="/icons/users-icon.svg" className="users-icon" />
+                
                 <p>{new Date(professor.time).toLocaleString()}</p>
               </div>
+              
             )}
             <Button
               onClick={() => handleButtonClick(professor._id)}

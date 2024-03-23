@@ -2,6 +2,7 @@ import "./HomePage.css";
 
 import { Link } from "react-router-dom";
 import { useState, useEffect } from 'react';
+import { getInstructions } from "../../api/ProfessorApi";
 
 import InputAdornment from "@mui/material/InputAdornment";
 import ProfessorsComponent from "../../components/professors/ProfessorsComponent";
@@ -14,9 +15,22 @@ import Autocomplete from '@mui/material/Autocomplete';
 
 function ComboBox() {
   const [subjects, setSubjects] = useState([]);
+  const [pastInstructions, setPastInstructions] = useState([]);
+  const [upcomingInstructions, setUpcomingInstructions] = useState([]);
+  const [sentInstructionRequests, setSentInstructionRequests] = useState([]);
 
   useEffect(() => {
     getSubjects().then(response => setSubjects(response.subjects));
+    const fetchInstructions = async () => {
+      const fetchedInstructions = await getInstructions();
+      console.log(fetchedInstructions);
+      console.log(fetchedInstructions.sentInstructionRequests)
+      setPastInstructions(fetchedInstructions.pastInstructions);
+      setUpcomingInstructions(fetchedInstructions.upcomingInstructions);
+      setSentInstructionRequests(fetchedInstructions.sentInstructionRequests);
+    };
+
+    fetchInstructions();
   }, []);
 
   const handleSubjectSelect = (event, value) => {
@@ -72,6 +86,10 @@ function ComboBox() {
 
 function HomePage() {
   const [professors, setProfessors] = useState([]);
+  const [pastInstructions, setPastInstructions] = useState([]);
+  const [sentInstructionRequests, setSentInstructionRequests] = useState([]);
+  const [otherProfessors, setOtherProfessors] = useState([]);
+  const user = JSON.parse(localStorage.getItem('user'));
 
   useEffect(() => {
       const fetchProfessors = async () => {
@@ -81,6 +99,27 @@ function HomePage() {
 
     fetchProfessors();
   }, []);
+  useEffect(() => {
+    const fetchInstructions = async () => {
+      const fetchedInstructions = await getInstructions();
+      console.log(fetchedInstructions);
+      console.log(fetchedInstructions.sentInstructionRequests)
+      setPastInstructions(fetchedInstructions.pastInstructions);
+      setSentInstructionRequests(fetchedInstructions.sentInstructionRequests);
+      console.log("profesori")
+      console.log(professors)
+      console.log(fetchedInstructions)
+      // find what professors are not in sentInstructionRequests or pastInstructions
+      const otherProfessors = professors.filter(professor => {
+        return !fetchedInstructions.sentInstructionRequests.some(sentInstruction => sentInstruction._id === professor._id) &&
+          !fetchedInstructions.pastInstructions.some(pastInstruction => pastInstruction._id === professor._id);
+      });
+      console.log(otherProfessors);
+      setOtherProfessors(otherProfessors);
+    };
+
+    fetchInstructions();
+  }, [professors]);
 
   if (!localStorage.getItem('token')) {
     window.location.href = '/login';
@@ -102,11 +141,33 @@ function HomePage() {
 
           <div>
             <h4>Najpopularniji instruktori:</h4>
+            {user.status === "student" ? (<><ProfessorsComponent
+              professors={sentInstructionRequests}
+              showTime={true}
+              showSubject={true}
+              showInstructionsCount={true}
+              buttonText={"Promijeni"}
+              buttonVariant={"outlined"}
+            />
             <ProfessorsComponent
+              professors={pastInstructions}
+              showTime={true}
+              showSubject={true}
+              showInstructionsCount={true}
+              buttonText={"Ponovno dogovori"} />
+              
+              <ProfessorsComponent
+              professors={otherProfessors}
+              showSubject={true}
+              showInstructionsCount={true}
+            />
+            </>): (
+              <ProfessorsComponent
               professors={professors}
               showSubject={true}
-              showInstructionsCount={false}
+              showInstructionsCount={true}
             />
+            )}
           </div>
         </div>
       </div>

@@ -1,10 +1,9 @@
 # Sto sam dodao
 
-Da datum je danas za sat vremena minimum umjesto preset dana
 
 Dodao settings page na kojem je također moguće vidjeti promjenu podataka prije klika na gumb save.
 
-Dodao limit da moze biti maksimalno 3 aktivna polja za instrukcije i nesmije bit duplikat
+Dodao limit da moze biti maksimalno 3 aktivna polja za instrukcije i nesmije bit duplikat (TODO BACKEND CHECK)
 
 Dodao provjere postoji li već korisnik s istim emailom
 
@@ -13,6 +12,10 @@ Student moze imati maksimalano 3 aktivna datuma instrukcija
 Dodao bolje interakcije (ako nesto kliknemo updateau se informacije, npr promjena datuma instrukcija)
 
 Napravio da gumb odustani NE šalje podatke za promjenu datuma
+
+Dodao da na main page se vidi jesu li najpopularniji profesori vec rezervirani za korisnika na homepage
+
+Maknuo user-icon ispred datuma jer je redundantan
 
 TODO:
 kad god ima poruka u returnu, napravit popup da izjavi najnovije stanje (tipa dodan novi predmet, ili nemres imat vise od 3 aktivna predmeta)

@@ -5,6 +5,8 @@ import Autocomplete from "@mui/material/Autocomplete";
 import "./SettingsPage.css";
 import { useEffect } from 'react';
 import { getSubjects } from "../../api/SubjectApi";
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 function SettingsPage() {
   const [email, setEmail] = useState("");
@@ -19,6 +21,8 @@ function SettingsPage() {
   const [isPasswordValid, setIsPasswordValid] = useState(true);
   const [isDataFilled, setIsDataFilled] = useState(true);
   const [isOriginallyTeacher, setIsOriginallyTeacher] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarType, setSnackbarType] = useState('success');
 
   const handleSave = async () => {
     if (password === "") {
@@ -28,7 +32,7 @@ function SettingsPage() {
     setIsPasswordValid(true);
 
     // check if every property is filled
-    if (email === "" || name === "" || surname === "" || profilePicture === null) {
+    if (email === "" || name === "" || surname === "") {
       setIsDataFilled(false);
       return;
     }
@@ -54,7 +58,7 @@ function SettingsPage() {
     formData.append("subjects", submittedSubjects.map((s) => s.url));
 
     const response = await fetch(
-      import.meta.env.VITE_REACT_BACKEND_URL + "/student/" + user.id,
+      import.meta.env.VITE_REACT_BACKEND_URL  + "/"+user.status+"/" + user.id,
       {
         method: "PUT",
         headers: {
@@ -68,9 +72,13 @@ function SettingsPage() {
       setSubmittedSubjects([]);
       setDescription([]);
       fetchUser();
+      setSnackbarType('success');
+      setOpenSnackbar(true);
     } else {
       // Handle error if necessary
       console.error("Failed to save data.");
+      setSnackbarType('error');
+      setOpenSnackbar(true);
     }
   };
 
@@ -81,16 +89,18 @@ function SettingsPage() {
   const fetchUser = async () => {
     let user = JSON.parse(localStorage.getItem('user'));
 
+   try {
     const response = await fetch(
       import.meta.env.VITE_REACT_BACKEND_URL + "/student/" + user.email,
       {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer " + localStorage.getItem("token"),
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          }
         }
-      }
-    );
+      );
+    
 
     if (response.ok) {
       const result = await response.json();
@@ -105,6 +115,12 @@ function SettingsPage() {
       }
 
     }
+  }
+  catch {
+    setSnackbarType('error');
+    setOpenSnackbar(true);
+    console.error("Failed to fetch user data.");
+  }
   }
 
   useEffect(() => {
@@ -138,6 +154,15 @@ function SettingsPage() {
   return (
     <div className="profilepage-wrapper">
       <div className="profilepage-container">
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={() => setOpenSnackbar(false)}
+      >
+        <Alert onClose={() => setOpenSnackbar(false)} severity={snackbarType}>
+          {snackbarType === 'success' ? 'Save successful!' : 'Save failed or server offline!'}
+        </Alert>
+      </Snackbar>
         <div className="student-info">
           <img src={profilePicture ? URL.createObjectURL(profilePicture) : import.meta.env.VITE_REACT_DATA_URL +profilePictureURL} className="student-image" />
           <div key={email}>
@@ -215,7 +240,9 @@ function SettingsPage() {
           style={{ borderColor: isPasswordValid ? "" : "red" }} // Change border color if password is invalid
         />
         <Button onClick={handleSave}>Save</Button>
+        
       </div>
+      
     </div>
     
   );

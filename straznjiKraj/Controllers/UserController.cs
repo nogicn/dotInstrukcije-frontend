@@ -250,6 +250,8 @@ namespace DotgetPredavanje2.Controllers
                 hasChange = true;
             }
             
+           
+
             if (hasChange) await context.SaveChangesAsync();
 
            
