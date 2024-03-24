@@ -1,4 +1,4 @@
-# Ispunio sam sve zahtjeve sa frontend repoa.
+
 
 ## KORISNICKI RACUNI IMAJU ISTI PASSWORD KAO I IME 
 
@@ -12,7 +12,8 @@
 
 - Predlazem koristenje korisnika i matan1 jer se sve funkcionalnosti mogu vidjeti vec na njima
 
-# Što sam dodao
+# Što sam dodao 
+- Ispunio sam sve zahtjeve navedene na kraju readme, i dodao mnogo novih funkcionalnosti
 
 ## PROFILE PAGE
 - Ovisno tko je ulogiran (student/profesor) vide svoje instrukcije, student nema "nadolazece instrukcije". 
