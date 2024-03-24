@@ -23,9 +23,10 @@ function SettingsPage() {
   const [isOriginallyTeacher, setIsOriginallyTeacher] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarType, setSnackbarType] = useState('success');
+  const [passwordCheck, setPasswordCheck] = useState("");
 
   const handleSave = async () => {
-    if (password === "") {
+    if (passwordCheck === "") {
       setIsPasswordValid(false);
       return;
     }
@@ -54,6 +55,7 @@ function SettingsPage() {
     formData.append("name", name);
     formData.append("surname", surname);
     formData.append("password", password);
+    formData.append("passwordCheck", passwordCheck);
     formData.append("profilePicture", profilePicture);
     formData.append("subjects", submittedSubjects.map((s) => s.url));
 
@@ -160,7 +162,7 @@ function SettingsPage() {
         onClose={() => setOpenSnackbar(false)}
       >
         <Alert onClose={() => setOpenSnackbar(false)} severity={snackbarType}>
-          {snackbarType === 'success' ? 'Save successful!' : 'Save failed or server offline!'}
+          {snackbarType === 'success' ? 'Spremljeno!' : 'Krivi password ili je server offline!'}
         </Alert>
       </Snackbar>
         <div className="student-info">
@@ -229,14 +231,15 @@ function SettingsPage() {
             ))}
           </>
         ) : null}
-        
+        <InputLabel>Novi password</InputLabel>
+        <OutlinedInput type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
         <InputLabel>Unesite password prije promjene</InputLabel>
         {!isPasswordValid ? <p style={{ color: "red" }}>Niste unijeli password!</p> : null}
         {!isDataFilled ? <p style={{ color: "red" }}>Niste unijeli sve podatke!</p> : null}
         <OutlinedInput
           type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={passwordCheck}
+          onChange={(e) => setPasswordCheck(e.target.value)}
           style={{ borderColor: isPasswordValid ? "" : "red" }} // Change border color if password is invalid
         />
         <Button onClick={handleSave}>Save</Button>

@@ -3,7 +3,7 @@
 # Sto sam dodao
 
 POSTAVKE
-Dodao settings page na kojem je također moguće vidjeti promjenu podataka prije klika na gumb save
+Dodao settings page na kojem je također moguće vidjeti promjenu podataka prije klika na gumb save 
 Na save gumb, korisnik dobije informaciju je li se uspješno sve spremilo
 Dodao limit da moze biti maksimalno 3 aktivna polja za instrukcije i nesmije bit duplikat na frontu i na backendu
 
@@ -23,6 +23,8 @@ Maknuo gumb za dogovor termina ako je trenutni korisnik profesor
 Na promjenu datuma instrukcija osvježe se informacije s najnovijima
 Napravio da gumb odustani ne šalje podatke za promjenu datuma (bug originalno?)
 
+Ako je ulogirani korisnik student, onda vidi gumb za rezervaciju, ako je profesor onda ne.
+
 
 HOME PAGE
 Dodao da se na home page vidi jesu li najpopularniji profesori vec rezervirani za korisnika 
@@ -30,16 +32,10 @@ Svi sada vide broj instrukcija za profesore na main page
 
 PREDMET
 Na svakom predmetu se sada moze i vidjeti je li korisnik imao instrukcije ili ne za profesora
-(npr korisnik@gmail.com pass: 123123 se moze vidjeti na /subject/matan2), ako nije moze prvi put registrirati (npr /subject/dotget je samo legendarni asistent i vidi se dogovori termin)
+(npr korisnik@gmail.com pass: korisnik se moze vidjeti na /subject/matan2), ako nije moze prvi se prijaviti
 
-
-
-
-TODO:
-kada se klikne na predmet, provjeri kao i na main page je li korisnik već bukirao instrukcije
-
-TODO:
-kad god ima poruka u returnu, napravit popup da izjavi najnovije stanje (tipa dodan novi predmet, ili nemres imat vise od 3 aktivna predmeta)
+DODAVANJE PREDMETA
+Sada se dolje vidi status update-a kao i kod promijene postavki korisnika
 
 
 

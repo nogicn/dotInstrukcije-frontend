@@ -9,6 +9,8 @@
         
         public string? Password { get; set; }
         
+        public string PasswordCheck { get; set; }
+        
         public string[]? Subjects { get; set; }
     }
 }
