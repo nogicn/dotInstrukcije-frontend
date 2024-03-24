@@ -16,6 +16,9 @@ import { getSubjects } from "../../api/SubjectApi";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+
 function RegisterPage() {
   const [showStudentForm, setShowStudentForm] = useState(true);
 
@@ -33,9 +36,46 @@ function RegisterPage() {
   const [professorConfirmPassword, setProfessorConfirmPassword] = useState("");
   const [professorProfilePicture, setProfessorProfilePicture] = useState(null);
   const [professorSubjects, setProfessorSubjects] = useState([]);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarType, setSnackbarType] = useState('success');
+
+
+
+  // check if all fields are filled
+  const checkFields = () => {
+    if (showStudentForm) {
+      return (
+        studentName !== "" &&
+        studentSurname !== "" &&
+        studentEmail !== "" &&
+        studentPassword !== "" &&
+        studentConfirmPassword !== "" &&
+        studentProfilePicture !== null
+
+      );
+    } else {
+      return (
+        professorName !== "" &&
+        professorSurname !== "" &&
+        professorEmail !== "" &&
+        professorPassword !== "" &&
+        professorConfirmPassword !== "" &&
+        professorProfilePicture !== null &&
+        (professorSubjects.length > 0 || professorSubjects.length < 4)
+
+      );
+    }
+  };
+
 
   const handleStudentSubmit = async (event) => {
     event.preventDefault();
+
+    if (!checkFields()) {
+      setOpenSnackbar(true);
+      setSnackbarType('error');
+      return;
+    }
 
     // Prepare the data to be sent
     const studentData = new FormData();
@@ -54,6 +94,12 @@ function RegisterPage() {
 
   const handleProfessorSubmit = async (event) => {
     event.preventDefault();
+
+    if (!checkFields()) {
+      setOpenSnackbar(true);
+      setSnackbarType('error');
+      return;
+    }
 
     const professorData = new FormData();
     professorData.append("name", professorName);
@@ -86,14 +132,16 @@ function RegisterPage() {
   const handleSubjectSelect = (event, value) => {
     if (value) {
       if (professorSubjects.length < 3) { // impose maximum of 3 submitted subjects
+        if (!professorSubjects.find((subject) => subject.url === value.url)) 
 
       setProfessorSubjects((prevSubjects) => [...prevSubjects, value]);
+        
       }
     }
   };
 
   const handleRemoveSubject = (subjectToRemove) => {
-    setSubmittedSubjects((prevSubjects) =>
+    setProfessorSubjects((prevSubjects) =>
       prevSubjects.filter((subject) => subject !== subjectToRemove)
     );
   };
@@ -101,6 +149,15 @@ function RegisterPage() {
 
   return (
     <>
+    <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={() => setOpenSnackbar(false)}
+      >
+        <Alert onClose={() => setOpenSnackbar(false)} severity={snackbarType}>
+          {snackbarType === 'success' ? 'Spremljeno!' : 'Nisu uneseni svi podatci!'}
+        </Alert>
+      </Snackbar>
       {showStudentForm ? (
         <div className="register-wrapper">
           <div className="register-container">
