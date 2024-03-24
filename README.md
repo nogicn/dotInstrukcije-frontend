@@ -10,7 +10,14 @@
 - brucos@gmail.com		brucos		#normalni user
 - imposter@gmail.com		imposter	#profesor
 
+- Predlazem koristenje korisnika i matan1 jer se sve funkcionalnosti mogu vidjeti vec na njima
+
 # Što sam dodao
+
+## PROFILE PAGE
+- Ovisno tko je ulogiran (student/profesor) vide svoje instrukcije, student nema "nadolazece instrukcije". 
+- Samo korisnik može promijeniti / ponovno poslati instrukcije.
+- Prikaz svih podataka o instrukcijama u karticama, ovisno o statusu instrukcija može se promijeniti datum ili ponovno dogoviriti
 
 ## POSTAVKE
 - Dodao settings page na kojem je također moguće vidjeti promjenu podataka prije klika na gumb "Save".

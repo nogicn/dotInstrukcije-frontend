@@ -38,19 +38,22 @@ function ProfilePage() {
             </div>
           </div>
 
+          {user.status === "student" && (
+            
           <div>
-            <h4>Poslani zahtjevi za instrukcije:</h4>
-            <ProfessorsComponent
-              professors={sentInstructionRequests}
-              showTime={true}
-              showSubject={true}
-              buttonText={"Promijeni"}
-              buttonVariant={"outlined"}
-              
-            />
-          </div>
+          <h4>Poslani zahtjevi za instrukcije:</h4>
+          <ProfessorsComponent
+            professors={sentInstructionRequests}
+            showTime={true}
+            showSubject={true}
+            buttonText={"Promijeni"}
+            buttonVariant={"outlined"}
+            
+          />
+        </div>)}
 
-          <div>
+          {user.status === "professor" && (
+            <div>
             <h4>Nadolazeće instrukcije:</h4>
             <ProfessorsComponent
               professors={upcomingInstructions}
@@ -60,7 +63,7 @@ function ProfilePage() {
               buttonVariant={"outlined"}
               
             />
-          </div>
+          </div>)}
 
           <div>
             <h4>Povijest instrukcija:</h4>
