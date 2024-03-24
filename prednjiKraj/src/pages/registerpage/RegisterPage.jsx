@@ -61,7 +61,7 @@ function RegisterPage() {
         professorPassword !== "" &&
         professorConfirmPassword !== "" &&
         professorProfilePicture !== null &&
-        (professorSubjects.length > 0 || professorSubjects.length < 4)
+        (professorSubjects.length > 0 && professorSubjects.length < 4)
 
       );
     }
