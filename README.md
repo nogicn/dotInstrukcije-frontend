@@ -1,6 +1,6 @@
-#Ispunio sam sve zahtjeve sa frontend repoa.
+# Ispunio sam sve zahtjeve sa frontend repoa.
 
-##KORISNICKI RACUNI IMAJU ISTI PASSWORD KAO I IME 
+## KORISNICKI RACUNI IMAJU ISTI PASSWORD KAO I IME 
 
 - korisnik@gmail.com		korisnik	#normalni user
 - matan1@gmail.com		matan1		#profesor		
