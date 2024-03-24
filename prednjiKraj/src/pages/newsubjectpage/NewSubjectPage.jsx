@@ -6,6 +6,13 @@ import Alert from '@mui/material/Alert';
 
 
 function NewSubjectPage() {
+
+  // if user is not professor, redirect to homepage
+  const user = JSON.parse(localStorage.getItem('user'));
+  if (user.status !== 'professor') {
+    window.location.href = '/';
+  }
+
   const [newSubjectName, setNewSubjectName] = useState("");
   const [newSubjectUrl, setNewSubjectUrl] = useState("");
   const [newSubjectDescription, setNewSubjectDescription] = useState("");
