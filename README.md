@@ -19,6 +19,7 @@
 - Ovisno tko je ulogiran (student/profesor) vide svoje instrukcije, student nema "nadolazece instrukcije". 
 - Samo korisnik može promijeniti / ponovno poslati instrukcije.
 - Prikaz svih podataka o instrukcijama u karticama, ovisno o statusu instrukcija može se promijeniti datum ili ponovno dogoviriti
+- Limit broja aktivnih instrukcija od 3
 
 ## POSTAVKE
 - Dodao settings page na kojem je također moguće vidjeti promjenu podataka prije klika na gumb "Save".
