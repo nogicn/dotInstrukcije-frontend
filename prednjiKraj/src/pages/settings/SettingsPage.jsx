@@ -181,11 +181,11 @@ function SettingsPage() {
 
         <h1>Settings</h1>
         <InputLabel>Email</InputLabel>
-        <OutlinedInput value={email} onChange={(e) => setEmail(e.target.value)} />
+        <OutlinedInput placeholder={email} onChange={(e) => setEmail(e.target.value)} />
         <InputLabel>Ime</InputLabel>
-        <OutlinedInput value={name} onChange={(e) => setName(e.target.value)} />
+        <OutlinedInput placeholder={name} onChange={(e) => setName(e.target.value)} />
         <InputLabel>Prezime</InputLabel>
-        <OutlinedInput value={surname} onChange={(e) => setSurname(e.target.value)} />
+        <OutlinedInput placeholder={surname} onChange={(e) => setSurname(e.target.value)} />
         <InputLabel>Nova profilna slika</InputLabel>
         <input type="file" onChange={(e) => {
           setProfilePicture(e.target.files[0]);

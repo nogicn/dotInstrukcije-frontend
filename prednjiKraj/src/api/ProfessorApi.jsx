@@ -38,6 +38,7 @@ export async function sentInstructionDate(selectedDate, professorId) {
       );
       if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
+
       }
       const date = await response.json();
       window.location.reload();

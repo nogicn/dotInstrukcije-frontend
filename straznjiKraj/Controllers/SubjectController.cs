@@ -70,6 +70,10 @@ namespace DotgetPredavanje2.Controllers
             // If a subject is found, return a success response with the subject data and associated professors
             if (subject != null)
             {
+                
+                var usersInstructions = await context.InstructionsDate.GroupBy(i => i.ProfessorId).Select(
+                    g => new { Key = g.Key, Count = g.Count() }).ToDictionaryAsync(i => i.Key, i => i.Count);
+
         
                 // get all professors
                 var professors = await context.Users.Where(u => u.Subjects != null).Select(
@@ -81,8 +85,21 @@ namespace DotgetPredavanje2.Controllers
                         p.Email,
                         profilePictureUrl = p.ProfilePicture,
                         p.Subjects,
-                        instructionsCount = p.InstructionsCount
+                        instructionsCount = p.InstructionsCount,
                     }).ToListAsync();
+                
+                
+                // now swap instructionsCount with the real number of instructions
+                professors = professors.Select(u => new
+                {
+                    u._id,
+                    u.Name,
+                    u.Surname,
+                    u.Email,
+                    u.profilePictureUrl,
+                    u.Subjects,
+                    instructionsCount = usersInstructions.ContainsKey(u._id) ? (int?)usersInstructions[u._id] : null
+                }).ToList();
                 
                 // check if professor has subject equal to subject url
                 professors = professors != null ? professors.Where(p => p.Subjects.Contains(url)).ToList() : null;
@@ -137,9 +154,18 @@ namespace DotgetPredavanje2.Controllers
                 // get all instructions for user that are still active with todays date and time
                 var instructions = await context.InstructionsDate
                     .Where(i => i.StudentId == user.ID && i.DateTime > DateTime.Now).ToListAsync();
-                if (instructions.Count > 4)
+                
+                
+                
+                
+                if (instructions.Count == 3)
                 {
-                    return BadRequest(new { success = false, message = "Maksimalno možete imati 3 aktivna datuma instrukcija!" });
+                    // check if the incoming instruction is from instructions 
+                    if (!instructions.Any(i => i.ProfessorId == model.ProfessorId))
+                    {
+                        return BadRequest(new { success = false, message = "Maksimalno možete imati 3 aktivna datuma instrukcija!" });
+                    }
+                   
                 }
                 
             }
@@ -210,7 +236,7 @@ namespace DotgetPredavanje2.Controllers
                     i.DateTime,
                     i.StanjeZahtjevaID
                 }).ToListAsync();
-            if (instructions.Count == 0) return NotFound(new { success = false, message = "No instructions found." });
+            //if (instructions.Count == 0) return NotFound(new { success = false, message = "No instructions found." });
 
             
             if (user.Subjects == null)
@@ -227,6 +253,10 @@ namespace DotgetPredavanje2.Controllers
                         p.Subjects,
                         instructionsCount = p.InstructionsCount,
                     }).ToListAsync();
+                
+                var usersInstructions = await context.InstructionsDate.GroupBy(i => i.ProfessorId).Select(
+                    g => new { Key = g.Key, Count = g.Count() }).ToDictionaryAsync(i => i.Key, i => i.Count);
+
             
                 var tmp = new List<ProfessorWithTime>();
                 foreach (var i in instructions)
@@ -242,7 +272,8 @@ namespace DotgetPredavanje2.Controllers
                             Email = professor.Email,
                             Time = i.DateTime,
                             ProfilePictureUrl = professor.profilePictureUrl,
-                            Subjects = professor.Subjects
+                            Subjects = professor.Subjects,
+                            InstructionsCount = usersInstructions.ContainsKey(professor._id) ? usersInstructions[professor._id] : 0
                         };
                         tmp.Add(prof);
                     }
@@ -252,13 +283,12 @@ namespace DotgetPredavanje2.Controllers
                 //var professorsPast = tmp.Where(p => instructions.Any(i => i.ProfessorId == p._id && i.StanjeZahtjevaID == 3)).ToList();
                 //get users where the date is past today
                 var professorsPast = tmp.Where(p => p.Time < DateTime.Now).ToList();
+                
                 return Ok(new { success = true, 
                     sentInstructionRequests = professorsSent,
                     pastInstructions = professorsPast
                 });
             }
-            
-            
             
             // tu krece za profesora
            

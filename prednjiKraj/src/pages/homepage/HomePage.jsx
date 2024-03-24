@@ -15,22 +15,9 @@ import Autocomplete from '@mui/material/Autocomplete';
 
 function ComboBox() {
   const [subjects, setSubjects] = useState([]);
-  const [pastInstructions, setPastInstructions] = useState([]);
-  const [upcomingInstructions, setUpcomingInstructions] = useState([]);
-  const [sentInstructionRequests, setSentInstructionRequests] = useState([]);
 
   useEffect(() => {
     getSubjects().then(response => setSubjects(response.subjects));
-    const fetchInstructions = async () => {
-      const fetchedInstructions = await getInstructions();
-      console.log(fetchedInstructions);
-      console.log(fetchedInstructions.sentInstructionRequests)
-      setPastInstructions(fetchedInstructions.pastInstructions);
-      setUpcomingInstructions(fetchedInstructions.upcomingInstructions);
-      setSentInstructionRequests(fetchedInstructions.sentInstructionRequests);
-    };
-
-    fetchInstructions();
   }, []);
 
   const handleSubjectSelect = (event, value) => {
@@ -102,8 +89,7 @@ function HomePage() {
   useEffect(() => {
     const fetchInstructions = async () => {
       const fetchedInstructions = await getInstructions();
-      console.log(fetchedInstructions);
-      console.log(fetchedInstructions.sentInstructionRequests)
+      // also append instructionsCount to fetchedInstructions
       setPastInstructions(fetchedInstructions.pastInstructions);
       setSentInstructionRequests(fetchedInstructions.sentInstructionRequests);
       console.log("profesori")
@@ -116,6 +102,10 @@ function HomePage() {
       });
       console.log(otherProfessors);
       setOtherProfessors(otherProfessors);
+
+      // add instructions count to professors
+      
+
     };
 
     fetchInstructions();

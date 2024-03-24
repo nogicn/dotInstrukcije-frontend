@@ -1,24 +1,46 @@
+# Ispunio sam sve zahtjeve sa frontend repoa.
+
 # Sto sam dodao
 
+POSTAVKE
+Dodao settings page na kojem je također moguće vidjeti promjenu podataka prije klika na gumb save
+Na save gumb, korisnik dobije informaciju je li se uspješno sve spremilo
+Dodao limit da moze biti maksimalno 3 aktivna polja za instrukcije i nesmije bit duplikat na frontu i na backendu
 
-Dodao settings page na kojem je također moguće vidjeti promjenu podataka prije klika na gumb save.
-
-Dodao limit da moze biti maksimalno 3 aktivna polja za instrukcije i nesmije bit duplikat (TODO BACKEND CHECK)
-
+REGISTER
 Dodao provjere postoji li već korisnik s istim emailom
+Dodao limit da moze biti maksimalno 3 aktivna polja za predmete instrukcija i nesmije bit duplikat na frontu i na backendu
 
-Student moze imati maksimalano 3 aktivna datuma instrukcija
+OSTALO
+Broj instrukcija se racuna brojanjem dosad odradjenih instrukcija za svakog profesora.
+Updated cim se doda nova instrukcija globalno.
 
-Dodao bolje interakcije (ako nesto kliknemo updateau se informacije, npr promjena datuma instrukcija)
 
-Napravio da gumb odustani NE šalje podatke za promjenu datuma
-
-Dodao da na main page se vidi jesu li najpopularniji profesori vec rezervirani za korisnika na homepage
-
+PROFESSOR COMPONENT I DATUM COMPONENT
 Maknuo user-icon ispred datuma jer je redundantan
+Maknuo gumb za dogovor termina ako je trenutni korisnik profesor
+
+Na promjenu datuma instrukcija osvježe se informacije s najnovijima
+Napravio da gumb odustani ne šalje podatke za promjenu datuma (bug originalno?)
+
+
+HOME PAGE
+Dodao da se na home page vidi jesu li najpopularniji profesori vec rezervirani za korisnika 
+Svi sada vide broj instrukcija za profesore na main page
+
+PREDMET
+Na svakom predmetu se sada moze i vidjeti je li korisnik imao instrukcije ili ne za profesora
+(npr korisnik@gmail.com pass: 123123 se moze vidjeti na /subject/matan2), ako nije moze prvi put registrirati (npr /subject/dotget je samo legendarni asistent i vidi se dogovori termin)
+
+
+
+
+TODO:
+kada se klikne na predmet, provjeri kao i na main page je li korisnik već bukirao instrukcije
 
 TODO:
 kad god ima poruka u returnu, napravit popup da izjavi najnovije stanje (tipa dodan novi predmet, ili nemres imat vise od 3 aktivna predmeta)
+
 
 
 # dotInstrukcije

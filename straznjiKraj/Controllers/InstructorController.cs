@@ -44,10 +44,27 @@ namespace DotgetPredavanje2.Controllers
                 {
                     return BadRequest(new { success = false, message = "User with this email already exists." });
                 }
+                
+                if (model.Subjects.Length > 0 && model.Subjects[0] != "")
+                {
+                    // if the user is trying to register more then 3 subjects stop him
+                    if (model.Subjects[0].Split(",").Length > 3)
+                    {
+                        return BadRequest(new { success = false, message = "You can't register more then 3 subjects." });
+                    }
+                    
+                    // check if they are duplicates
+                    var subjects = model.Subjects[0].Split(",");
+                    if (subjects.Distinct().Count() != subjects.Length)
+                    {
+                        return BadRequest(new { success = false, message = "You can't register duplicate subjects." });
+                    }
+                }
+                
                 var fileName = Guid.NewGuid().ToString() + Path.GetExtension(model.ProfilePicture.FileName);
                 var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/profilePictures", fileName);
                 
-                // check if email already exists
+                
 
                 using (var stream = System.IO.File.Create(filePath))
                 {
@@ -152,6 +169,11 @@ namespace DotgetPredavanje2.Controllers
         [HttpGet("professors")]
         public async Task<IActionResult> GetAllUsers()
         {
+            
+            // calculate number of instructions where user is professor
+            var usersInstructions = await context.InstructionsDate.GroupBy(i => i.ProfessorId).Select(
+                g => new { Key = g.Key, Count = g.Count() }).ToDictionaryAsync(i => i.Key, i => i.Count);
+            
            // select all suers whre Subjects != null
            var users = await context.Users.Where(u => u.Subjects != null).Select(
                p => new
@@ -164,8 +186,20 @@ namespace DotgetPredavanje2.Controllers
                    p.Subjects,
                    instructionsCount = p.InstructionsCount
                }).ToListAsync();
+           
+           // now swap instructionsCount with the real number of instructions
+           var usersWithInstructions = users.Select(u => new
+              {
+                u._id,
+                u.Name,
+                u.Surname,
+                u.Email,
+                u.profilePictureUrl,
+                u.Subjects,
+                instructionsCount = usersInstructions.ContainsKey(u._id) ? usersInstructions[u._id] : 0
+                }).ToList();
             
-            return Ok(new { success = true, professors = users });
+            return Ok(new { success = true, professors = usersWithInstructions });
         }
 
         [Authorize]
@@ -229,6 +263,12 @@ namespace DotgetPredavanje2.Controllers
                 if (model.Subjects[0].Split(",").Length > 3)
                 {
                     return BadRequest(new { success = false, message = "You can't register more then 3 subjects." });
+                }
+                // check if they are duplicates
+                var subjects = model.Subjects[0].Split(",");
+                if (subjects.Distinct().Count() != subjects.Length)
+                {
+                    return BadRequest(new { success = false, message = "You can't register duplicate subjects." });
                 }
                 user.Subjects = model.Subjects[0]?.Split(",");
                 hasChange = true;

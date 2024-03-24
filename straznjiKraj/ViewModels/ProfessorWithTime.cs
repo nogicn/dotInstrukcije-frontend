@@ -13,4 +13,6 @@ public class ProfessorWithTime
     public string[] Subjects { get; set; }
     
     public DateTime Time { get; set; }
+    
+    public int InstructionsCount { get; set; }
 }

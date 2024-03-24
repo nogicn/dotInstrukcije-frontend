@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { Button } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./ProfessorsComponent.css";
 import DateTimeDialog from "../dialog/DateTimeDialog";
 
@@ -13,6 +13,13 @@ function ProfessorsComponent({
   buttonVariant,
 }) {
   const [dialogOpenMap, setDialogOpenMap] = useState({});
+  const [isProfessor, setIsProfessor] = useState(false);
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    setIsProfessor(user.status);
+  }
+  , []);
 
   const handleButtonClick = (professorId) => {
     setDialogOpenMap((prevMap) => ({
@@ -51,7 +58,7 @@ function ProfessorsComponent({
             {showInstructionsCount && (
               <div className="instructionsCount-container">
                 <img src="/icons/users-icon.svg" className="users-icon" />
-                <p>{professor.instructionsCount}</p>
+                <p>{ professor.instructionsCount ? professor.instructionsCount : 0}</p>
               </div>
             )}
 
@@ -62,12 +69,13 @@ function ProfessorsComponent({
               </div>
               
             )}
-            <Button
+          {isProfessor !== "professor" ? (
+              <Button
               onClick={() => handleButtonClick(professor._id)}
               variant={buttonVariant ? buttonVariant : "contained"}
             >
               {buttonText ? buttonText : "Dogovori termin"}
-            </Button>
+            </Button>):null}
           </div>
           <DateTimeDialog
             open={dialogOpenMap[professor._id] || false}
