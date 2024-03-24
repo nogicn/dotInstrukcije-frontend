@@ -1,14 +1,14 @@
 #Ispunio sam sve zahtjeve sa frontend repoa.
 
-##KORISNICKI RACUNI IMAJU ISTI PASSWORD KAO I IME PRIJE @gmail.com
+##KORISNICKI RACUNI IMAJU ISTI PASSWORD KAO I IME 
 
-- korisnik@gmail.com		korisnik
-- matan1@gmail.com		matan1
-- matan2@gmail.com		matan2
-- tinf@gmail.com		tinf
-- legendarni@gmail.com		legendarni
-- brucos@gmail.com		brucos
-- imposter@gmail.com		imposter
+- korisnik@gmail.com		korisnik	#normalni user
+- matan1@gmail.com		matan1		#profesor		
+- matan2@gmail.com		matan2		#profesor
+- tinf@gmail.com		tinf		#profesor
+- legendarni@gmail.com		legendarni	#profesor
+- brucos@gmail.com		brucos		#normalni user
+- imposter@gmail.com		imposter	#profesor
 
 # Što sam dodao
 
@@ -31,10 +31,11 @@
 ## HOME PAGE
 - Dodao da se na home page vidi jesu li najpopularniji profesori već rezervirani za korisnika.
 - Svi sada vide broj instrukcija za profesore na glavnoj stranici.
+- Samo admini mogu vidjeti "novi predmet" gumb
 
 ## PREDMET
 - Na svakom predmetu sada se može vidjeti je li korisnik imao instrukcije ili ne za profesora
-  (npr korisnik@gmail.com pass: korisnik se može vidjeti na /subject/matan2), ako nije, može prvi se prijaviti.
+  (npr korisnik@gmail.com pass: korisnik se može vidjeti na /subject/matan2), ako nije, može se prijaviti.
 
 ## DODAVANJE PREDMETA
 - Sada se dolje vidi status update-a kao i kod promjene postavki korisnika.
@@ -42,6 +43,9 @@
 ## OSTALO
 - Broj instrukcija se računa brojanjem dosad odradjenih instrukcija za svakog profesora.
 - Ažurira se čim se doda nova instrukcija globalno.
+
+
+
 
 # dotInstrukcije
 
