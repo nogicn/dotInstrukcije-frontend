@@ -1,43 +1,47 @@
-# Ispunio sam sve zahtjeve sa frontend repoa.
+#Ispunio sam sve zahtjeve sa frontend repoa.
 
-# Sto sam dodao
+##KORISNICKI RACUNI IMAJU ISTI PASSWORD KAO I IME PRIJE @gmail.com
 
-POSTAVKE
-Dodao settings page na kojem je također moguće vidjeti promjenu podataka prije klika na gumb save 
-Na save gumb, korisnik dobije informaciju je li se uspješno sve spremilo
-Dodao limit da moze biti maksimalno 3 aktivna polja za instrukcije i nesmije bit duplikat na frontu i na backendu
+- korisnik@gmail.com		korisnik
+- matan1@gmail.com		matan1
+- matan2@gmail.com		matan2
+- tinf@gmail.com		tinf
+- legendarni@gmail.com		legendarni
+- brucos@gmail.com		brucos
+- imposter@gmail.com		imposter
 
-REGISTER
-Dodao provjere postoji li već korisnik s istim emailom
-Dodao limit da moze biti maksimalno 3 aktivna polja za predmete instrukcija i nesmije bit duplikat na frontu i na backendu
+# Što sam dodao
 
-OSTALO
-Broj instrukcija se racuna brojanjem dosad odradjenih instrukcija za svakog profesora.
-Updated cim se doda nova instrukcija globalno.
+## POSTAVKE
+- Dodao settings page na kojem je također moguće vidjeti promjenu podataka prije klika na gumb "Save".
+- Nakon klika na gumb "Save", korisnik dobije informaciju je li se uspješno sve spremilo.
+- Dodan limit da može biti maksimalno 3 aktivna polja za instrukcije, s provjerom duplikata na frontu i na backendu.
 
+## REGISTER
+- Dodane provjere postoji li već korisnik s istim emailom.
+- Dodan limit da može biti maksimalno 3 aktivna polja za predmete instrukcija, s provjerom duplikata na frontu i na backendu.
 
-PROFESSOR COMPONENT I DATUM COMPONENT
-Maknuo user-icon ispred datuma jer je redundantan
-Maknuo gumb za dogovor termina ako je trenutni korisnik profesor
+## PROFESSOR COMPONENT I DATUM COMPONENT
+- Maknuo user-icon ispred datuma jer je redundantan.
+- Maknuo gumb za dogovor termina ako je trenutni korisnik profesor.
+- Na promjenu datuma instrukcija osvježe se informacije s najnovijima.
+- Napravio da gumb "Odustani" ne šalje podatke za promjenu datuma (bug originalno?).
+- Ako je ulogirani korisnik student, onda vidi gumb za rezervaciju, ako je profesor onda ne.
 
-Na promjenu datuma instrukcija osvježe se informacije s najnovijima
-Napravio da gumb odustani ne šalje podatke za promjenu datuma (bug originalno?)
+## HOME PAGE
+- Dodao da se na home page vidi jesu li najpopularniji profesori već rezervirani za korisnika.
+- Svi sada vide broj instrukcija za profesore na glavnoj stranici.
 
-Ako je ulogirani korisnik student, onda vidi gumb za rezervaciju, ako je profesor onda ne.
+## PREDMET
+- Na svakom predmetu sada se može vidjeti je li korisnik imao instrukcije ili ne za profesora
+  (npr korisnik@gmail.com pass: korisnik se može vidjeti na /subject/matan2), ako nije, može prvi se prijaviti.
 
+## DODAVANJE PREDMETA
+- Sada se dolje vidi status update-a kao i kod promjene postavki korisnika.
 
-HOME PAGE
-Dodao da se na home page vidi jesu li najpopularniji profesori vec rezervirani za korisnika 
-Svi sada vide broj instrukcija za profesore na main page
-
-PREDMET
-Na svakom predmetu se sada moze i vidjeti je li korisnik imao instrukcije ili ne za profesora
-(npr korisnik@gmail.com pass: korisnik se moze vidjeti na /subject/matan2), ako nije moze prvi se prijaviti
-
-DODAVANJE PREDMETA
-Sada se dolje vidi status update-a kao i kod promijene postavki korisnika
-
-
+## OSTALO
+- Broj instrukcija se računa brojanjem dosad odradjenih instrukcija za svakog profesora.
+- Ažurira se čim se doda nova instrukcija globalno.
 
 # dotInstrukcije
 
